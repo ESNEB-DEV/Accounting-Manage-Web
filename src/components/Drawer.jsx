@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FaBars, FaUserCircle, FaSignOutAlt, FaFileInvoiceDollar, FaHome } from "react-icons/fa";
+import { FaGear } from "react-icons/fa6";
 import { MdAttachMoney } from "react-icons/md";
 import { FcSalesPerformance } from "react-icons/fc";
 import { Link } from 'react-router-dom';
@@ -19,7 +20,7 @@ function Drawer() {
     return (
         <>
             <div className='mx-auto text-center py-4 flex justify-center items-center px-10 shadow-md'>
-                <div className='flex justify-between items-center text-gray-600 w-full'>
+                <div className='flex justify-between items-center text-gray-600 hover:text-gray-400 w-full'>
                     <button onClick={() => setIsDrawerOpen(true)}>
                         <FaBars className='w-[20px] h-[20px]' />
                     </button>
@@ -41,11 +42,13 @@ function Drawer() {
                 <div className={`relative bg-gray-100 w-50 h-full shadow-lg p-6 z-50 transform transition-transform duration-300
                     ${isDrawerOpen && !isClosing ? 'translate-x-0' : '-translate-x-full'}
                     pointer-events-auto flex flex-col`}>
-                    <h2 className='text-xl text-center font-bold text-gray-700 mb-6 flex items-center'><FcSalesPerformance className='mr-2 w-[20px] h-[20px] ' />Accounting Manage Web</h2>
+                    <h2 className='text-xl text-center font-bold text-gray-700 mb-6 flex items-center'>
+                        <FcSalesPerformance className='mr-2 w-[20px] h-[20px] ' />Accounting Manage Web</h2>
                     <nav className="flex flex-col space-y-2 text-gray-700 flex-1">
                         <div className="group">
-                            <Link to="/" className="block px-3 py-2 mb-3 rounded font-semibold flex items-center bg-gray-600 text-white"><FaHome className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />Dashboard</Link>
-                            <a className="block px-3 py-2 rounded font-semibold flex items-center bg-gray-600 text-white"><MdAttachMoney className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />บันทึกการเงิน</a>
+                            <Link to="/" className="block px-3 py-2 mb-3 rounded font-semibold flex items-center bg-gray-600 hover:bg-gray-400 text-white"><FaHome className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />Dashboard</Link>
+                            <a className="block px-3 py-2 rounded font-semibold flex items-center bg-gray-600 text-white">
+                                <MdAttachMoney className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />บันทึกการเงิน</a>
                             <div className="ml-4 mt-1 flex flex-col space-y-1">
                                 <Link to="/Amount_Receive" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกแยกจำนวนเงินที่ได้รับมา</Link>
                                 <Link to="/Record_Daily" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกรายกการค่าใช้จ่ายประจำวัน</Link>
@@ -56,18 +59,27 @@ function Drawer() {
                             </div>
                         </div>
                         <div className="group">
-                            <a className="block px-3 py-2 rounded font-semibold flex items-center bg-gray-600 text-white"><FaFileInvoiceDollar className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />รายงาน</a>
+                            <a className="block px-3 py-2 rounded font-semibold flex items-center bg-gray-600 text-white">
+                                <FaFileInvoiceDollar className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />รายงาน</a>
                             <div className="ml-4 mt-1 flex flex-col space-y-1">
-                                <Link to="/Rep_Amount_Receive" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายงานแสดงภาพรวมการแยกจำนวนเงินที่ได้รับมา / เดือน</Link>
-                                <Link to="/Rep_Record_Daily" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายงานสรุปใช้จ่ายประจำวัน / เดือน</Link>
+                                <Link to="/Rep_Amount_Receive" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายงานแสดงภาพรวมการแยกจำนวนเงินที่ได้รับมา</Link>
+                                <Link to="/Rep_Record_Daily" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายงานสรุปใช้จ่ายประจำวัน</Link>
                                 <Link to="/Rep_Use_Credit_Card" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายการการใช้บัตรเคดิต</Link>
                                 <Link to="/Rep_Installment_Credit_Card" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายงานการผ่อนชำระบัตรเคดิต</Link>
                                 <Link to="/Rep_Next_Expenses_List" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายงาน list ค่าใช้จ่ายเดือนถัดไป</Link>
                             </div>
                         </div>
+                        <div className="group">
+                            <a className="block px-3 py-2 rounded font-semibold flex items-center bg-gray-600 text-white">
+                                <FaGear className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />ตั้งค่าระบบ</a>
+                            <div className="ml-4 mt-1 flex flex-col space-y-1">
+                                <Link to="/Info" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">ข้อมูลผู้ใช้</Link>
+                                <Link to="/" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">เปลี่ยนรหัสผ่าน</Link>
+                            </div>
+                        </div>
                     </nav>
                     <div className="mt-auto ml-4 flex flex-col space-y-1">
-                        <a href="#" className="flex items-center block px-3 py-2 rounded hover:bg-gray-200 text-sm"> <FaSignOutAlt className='mr-2 w-[20px] h-[20px] text-gray-600' />ออกจากระบบ</a>
+                        <a href="#" className="flex items-center block px-3 py-2 rounded text-sm hover:bg-gray-200 hover:text-gray-900"> <FaSignOutAlt className='mr-2 w-[20px] h-[20px] hover:text-red-600' />ออกจากระบบ</a>
                     </div>
                 </div>
             </div>

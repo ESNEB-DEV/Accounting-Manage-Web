@@ -16,6 +16,8 @@ import Rep_Installment_Credit_Card from '../src/pages/reports/Rep_Installment_Cr
 import Rep_Next_Expenses_List from '../src/pages/reports/Rep_Next_Expenses_List.jsx'
 import Rep_Record_Daily from '../src/pages/reports/Rep_Record_Daily.jsx'
 import Rep_Use_Credit_Card from '../src/pages/reports/Rep_Use_Credit_Card.jsx'
+// Component Other
+import Info from './pages/Info.jsx'
 
 const router = createBrowserRouter([
   {
@@ -79,6 +81,13 @@ const router = createBrowserRouter([
     // รายการการใช้บัตรเคดิต
     path: 'Rep_Use_Credit_Card',
     element: <Rep_Use_Credit_Card />,
+  },
+
+  // Other routes can be added here
+  {
+    // ข้อมูลผู้ใช้
+    path: 'Info',
+    element: <Info />,
   },
 ])
 
