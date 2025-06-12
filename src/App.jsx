@@ -1,5 +1,5 @@
 import './App.css'
-import Drawer from './component/Drawer'
+import Drawer from './components/Drawer'
 
 function App() {
 
