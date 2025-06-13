@@ -14,7 +14,7 @@ const db = mysql.createConnection({
 });
 
 app.get('/bg_credit', (req, res) => {
-    db.query('SELECT * FROM bg_credit', (err, results) => {
+    db.query('SELECT * FROM bg_credit ORDER BY id DESC', (err, results) => {
         if (err) {
             console.log(err);
         } else {
@@ -30,7 +30,8 @@ app.post('/bg_credit_create', (req, res) => {
             if (err) {
                 console.log(err);
             } else {
-                res.send("Value Inserted");
+                // ส่งกลับ ID ที่ gen โดย MySQL
+                res.json({ id: results.insertId });
             }
         });
 });

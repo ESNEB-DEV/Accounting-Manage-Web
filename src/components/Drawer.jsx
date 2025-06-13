@@ -19,14 +19,14 @@ function Drawer() {
 
     return (
         <>
-            <div className='mx-auto text-center py-4 flex justify-center items-center px-10 shadow-md'>
-                <div className='flex justify-between items-center text-gray-600 hover:text-gray-400 w-full'>
+            <div className='mx-auto text-center py-4 flex justify-center bg-gray-600 items-center px-10 shadow-md'>
+                <div className='flex justify-between items-center text-white hover:text-gray-400 w-full'>
                     <button onClick={() => setIsDrawerOpen(true)}>
                         <FaBars className='w-[20px] h-[20px]' />
                     </button>
-                    <div className='flex justify-center items-center space-x-2 text-gray-600'>
+                    <div className='flex justify-center items-center space-x-2 text-white'>
                         <FaUserCircle className='w-[20px] h-[20px]' />
-                        <h1>ADMINISTRATOR SYSTEM</h1>
+                        <h1 className='text-2xl'>ADMINISTRATOR SYSTEM</h1>
                     </div>
                 </div>
             </div>
