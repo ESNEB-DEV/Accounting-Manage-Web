@@ -26,7 +26,7 @@ function Drawer() {
                     </button>
                     <div className='flex justify-center items-center space-x-2 text-white'>
                         <FaUserCircle className='w-[20px] h-[20px]' />
-                        <h1 className='text-2xl'>ADMINISTRATOR SYSTEM</h1>
+                        <h1 className='text-sm'>ADMINISTRATOR SYSTEM</h1>
                     </div>
                 </div>
             </div>

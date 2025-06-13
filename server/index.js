@@ -36,6 +36,19 @@ app.post('/bg_credit_create', (req, res) => {
         });
 });
 
+app.put('/bg_credit_update/:id', (req, res) => {
+    const id = req.params.id;
+    const { c_name, f_amount, d_doc_date } = req.body;
+    db.query('UPDATE bg_credit SET c_name = ?, f_amount = ?, d_doc_date = ? WHERE id = ?',
+        [c_name, f_amount, d_doc_date, id], (err, results) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(results);
+            }
+        });
+});
+
 app.delete('/bg_credit_delete/:id', (req, res) => {
     const id = req.params.id;
     db.query('DELETE FROM bg_credit WHERE id = ?', id, (err, results) => {
