@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaBars, FaUserCircle, FaSignOutAlt, FaFileInvoiceDollar, FaHome } from "react-icons/fa";
+import { FaBars, FaUserCircle, FaSignOutAlt, FaFileInvoiceDollar, FaHome, FaRegUser } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 import { MdAttachMoney } from "react-icons/md";
 import { FcSalesPerformance } from "react-icons/fc";
@@ -19,20 +19,23 @@ function Drawer() {
 
     return (
         <>
-            <div className='mx-auto text-center py-4 flex justify-center bg-gray-600 items-center px-10 shadow-md'>
-                <div className='flex justify-between items-center text-white hover:text-gray-400 w-full'>
-                    <button onClick={() => setIsDrawerOpen(true)}>
-                        <FaBars className='w-[20px] h-[20px]' />
-                    </button>
+            <div className='mx-auto text-center py-4 flex justify-center bg-gray-600 items-center px-10 shadow-md font-Sarabun'>
+                <div className='flex justify-between items-center text-white  w-full'>
+                    <div className='flex items-center space-x-5'>
+                        <button onClick={() => setIsDrawerOpen(true)} className='hover:text-gray-400'>
+                            <FaBars className='w-[20px] h-[20px]' />
+                        </button>
+                        <h2 className='text-left text-xl font-bold'>Accounting Manage Web</h2>
+                    </div>
                     <div className='flex justify-center items-center space-x-2 text-white'>
                         <FaUserCircle className='w-[20px] h-[20px]' />
-                        <h1 className='text-sm'>ADMINISTRATOR SYSTEM</h1>
+                        <h1 className='text-md'>ADMINISTRATOR SYSTEM</h1>
                     </div>
                 </div>
             </div>
 
             {/* Drawer with slide-in transition */}
-            <div className={`fixed inset-0 z-50 flex pointer-events-none text-gray-600  ${isDrawerOpen || isClosing ? '' : 'invisible'}`} aria-hidden={!isDrawerOpen && !isClosing} >
+            <div className={`fixed inset-0 z-50 flex pointer-events-none text-gray-600 font-Sarabun ${isDrawerOpen || isClosing ? '' : 'invisible'}`} aria-hidden={!isDrawerOpen && !isClosing} >
                 {/* Overlay */}
                 <div
                     className={`fixed inset-0 bg-black opacity-40 transition-opacity duration-300 ${isDrawerOpen || isClosing ? 'opacity-40 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
@@ -74,12 +77,12 @@ function Drawer() {
                                 <FaGear className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />ตั้งค่าระบบ</a>
                             <div className="ml-4 mt-1 flex flex-col space-y-1">
                                 <Link to="/Info" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">ข้อมูลผู้ใช้</Link>
-                                <Link to="/" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">เปลี่ยนรหัสผ่าน</Link>
+                                <Link to="/User" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">จัดการข้อมูลผู้ใช้งาน</Link>
                             </div>
                         </div>
                     </nav>
                     <div className="mt-auto ml-4 flex flex-col space-y-1">
-                        <a href="#" className="flex items-center block px-3 py-2 rounded text-sm hover:bg-gray-200 hover:text-gray-900"> <FaSignOutAlt className='mr-2 w-[20px] h-[20px] hover:text-red-600' />ออกจากระบบ</a>
+                        <a href="/Signin" className="flex items-center block px-3 py-2 rounded text-sm hover:bg-gray-200 hover:text-gray-900"> <FaSignOutAlt className='mr-2 w-[20px] h-[20px] hover:text-red-600' />ออกจากระบบ</a>
                     </div>
                 </div>
             </div>

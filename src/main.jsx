@@ -18,6 +18,8 @@ import Rep_Record_Daily from '../src/pages/reports/Rep_Record_Daily.jsx'
 import Rep_Use_Credit_Card from '../src/pages/reports/Rep_Use_Credit_Card.jsx'
 // Component Other
 import Info from './pages/Info.jsx'
+import Signin from './Signin.jsx'
+import User from './pages/User.jsx'
 
 const router = createBrowserRouter([
   {
@@ -88,6 +90,16 @@ const router = createBrowserRouter([
     // ข้อมูลผู้ใช้
     path: 'Info',
     element: <Info />,
+  },
+  {
+    // จัดการข้อมูลผู้ใช้
+    path: 'User',
+    element: <User />,
+  },
+  {
+    // เข้าสู่ระบบ
+    path: 'Signin',
+    element: <Signin />,
   },
 ])
 

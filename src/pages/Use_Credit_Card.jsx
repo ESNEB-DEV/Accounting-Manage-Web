@@ -17,7 +17,7 @@ function Use_Credit_Card() {
     const itemsPerPage = 10;
     const [showEdit, setShowEdit] = useState(false);
     const [editData, setEditData] = useState({
-        id: null,
+        bg_credit_id: null,
         c_name: "",
         f_amount: 0,
         d_doc_date: ""
@@ -45,10 +45,10 @@ function Use_Credit_Card() {
             f_amount: f_amount,
             d_doc_date: d_doc_date
         }).then((response) => {
-            const newId = response.data.id;
+            const newId = response.data.bg_credit_id;
             setOrderCreditCard([
                 {
-                    id: newId,
+                    bg_credit_id: newId,
                     c_name: c_name,
                     f_amount: f_amount,
                     d_doc_date: d_doc_date
@@ -64,14 +64,14 @@ function Use_Credit_Card() {
 
     console.log(OrderCreditCard);
 
-    const handleDeleteClick = (id) => {
-        setDeleteId(id);
+    const handleDeleteClick = (bg_credit_id) => {
+        setDeleteId(bg_credit_id);
         setShowConfirm(true);
     };
 
     const confirmDelete = () => {
         axios.delete(`http://localhost:3001/bg_credit_delete/${deleteId}`).then(() => {
-            setOrderCreditCard(OrderCreditCard.filter((val) => val.id !== deleteId));
+            setOrderCreditCard(OrderCreditCard.filter((val) => val.bg_credit_id !== deleteId));
             setShowConfirm(false);
             setDeleteId(null);
         });
@@ -93,7 +93,7 @@ function Use_Credit_Card() {
             formattedDate = `${year}-${month}-${day}`;
         }
         setEditData({
-            id: item.id,
+            bg_credit_id: item.bg_credit_id,
             c_name: item.c_name,
             f_amount: item.f_amount,
             d_doc_date: formattedDate
@@ -110,13 +110,13 @@ function Use_Credit_Card() {
     };
 
     const handleSaveEdit = () => {
-        axios.put(`http://localhost:3001/bg_credit_update/${editData.id}`, {
+        axios.put(`http://localhost:3001/bg_credit_update/${editData.bg_credit_id}`, {
             c_name: editData.c_name,
             f_amount: editData.f_amount,
             d_doc_date: editData.d_doc_date
         }).then(() => {
             setOrderCreditCard(OrderCreditCard.map(item =>
-                item.id === editData.id
+                item.bg_credit_id === editData.bg_credit_id
                     ? { ...item, ...editData }
                     : item
             ));
@@ -167,7 +167,7 @@ function Use_Credit_Card() {
                     <tbody className='border border-2'>
                         {OrderCreditCard && OrderCreditCard.length > 0 ? (
                             currentItems.map((val) => (
-                                <tr key={val.id} className='hover:bg-gray-200'>
+                                <tr key={val.bg_credit_id} className='hover:bg-gray-200'>
                                     <td className='text-left px-5 w-[700px]'><p className='text-gray-600'>{val.c_name}</p></td>
                                     <td><p className='text-gray-600 text-right'>{Number(val.f_amount).toLocaleString()} บาท</p></td>
                                     <td><p className='text-gray-600 text-right'>{formatThaiDate(val.d_doc_date)}</p></td>
@@ -176,13 +176,18 @@ function Use_Credit_Card() {
                                             <button className=' text-white px-4 py-2 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
                                                 onClick={() => handleEditClick(val)}
                                             ><FaEdit /></button>
-                                            <button className='text-white px-4 py-2 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.id) }}><MdDelete /></button>
+                                            <button className='text-white px-4 py-2 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.bg_credit_id) }}><MdDelete /></button>
                                         </div>
                                     </td>
                                 </tr>
                             ))
-                        ) : <h2 className='text-right'>ไม่พบข้อมูลรายการใช้บัตรเครดิต</h2>
-                        }
+                        ) : (
+                            <tr>
+                                <td colSpan={4} className="text-center text-gray-500 py-4">
+                                    ไม่พบข้อมูลรายการใช้บัตรเครดิต
+                                </td>
+                            </tr>
+                        )}
 
                     </tbody>
                 </table>
