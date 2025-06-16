@@ -66,6 +66,51 @@ app.delete('/bg_credit_delete/:bg_credit_id', (req, res) => {
 });
 // End บันทึกการใช้บัตรเครดิต
 
+// บันทึกรายการรับ-จ่ายเงิน
+app.get('/bg_daily', (req, res) => {
+    db.query('SELECT * FROM bg_daily ORDER BY bg_daily_id DESC', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
+app.post('/bg_daily_create', (req, res) => {
+    const { c_name, f_amount, c_type } = req.body;
+    db.query('INSERT INTO bg_daily (c_name, f_amount, c_type) VALUES (?, ?, ?)',
+        [c_name, f_amount, c_type], (err, results) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({ bg_daily_id: results.insertId });
+            }
+        });
+});
+
+app.get('/bg_daily_recieve', (req, res) => {
+    db.query('SELECT bg_daily_id ,f_amount FROM bg_daily WHERE c_type = 1', (err, results) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+app.get('/bg_daily_pay', (req, res) => {
+    db.query('SELECT bg_daily_id ,f_amount FROM bg_daily WHERE c_type = 0', (err, results) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+
+
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
 }); 

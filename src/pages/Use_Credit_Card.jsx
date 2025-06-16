@@ -144,12 +144,11 @@ function Use_Credit_Card() {
         setShowEdit(false);
     };
 
-
     return (
         <div>
             <Drawer />
             <div className="w-full font-NotoSansThai">
-                <h1 className='flex items-center text-xl pl-5 text-white h-14 text-left bg-gray-400'><FaCcVisa className='mr-3 w-[20px] h-[20px]' />บันทึกการใช้บัตรเครดิต</h1>
+                <h1 className='flex items-center text-xl pl-5 text-white h-14 text-left bg-gray-400 pl-11'><FaCcVisa className='mr-3 w-[20px] h-[20px]' />บันทึกการใช้บัตรเครดิต</h1>
                 <form className='my-2 px-10 py-5 bg-gray-100 flex sm:flex-col md:flex-col lg:flex-row h-28'>
                     <div className='flex'>
                         <div className='flex flex-col justify-start my-2'>
@@ -176,10 +175,10 @@ function Use_Credit_Card() {
                     <table className='w-full'>
                         <thead>
                             <tr className='bg-gray-400 h-12 text-lg text-white'>
-                                <th  className='w-96'>รายการจ่าย</th>
-                                <th  className='w-10'>จำนวนเงิน</th>
-                                <th  className='w-44'>วันที่ใช้จ่าย</th>
-                                <th  className='w-20'>-</th>    
+                                <th className='w-96'>รายการจ่าย</th>
+                                <th className='w-10'>จำนวนเงิน</th>
+                                <th className='w-44'>วันที่ใช้จ่าย</th>
+                                <th className='w-20'>-</th>
                             </tr>
                         </thead>
                         <tbody className='border border-2'>
