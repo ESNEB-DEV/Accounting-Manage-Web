@@ -11,6 +11,7 @@ export default {
         serif: ['Merriweather', 'serif'],
         mono: ['Menlo', 'monospace'],
         Sarabun: ['Sarabun', 'sans-serif'],
+        NotoSansThai: ['Noto Sans Thai','sans-serif']
       },
     },
   },

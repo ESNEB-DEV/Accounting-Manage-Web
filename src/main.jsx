@@ -10,6 +10,7 @@ import Check_List from './pages/Check_List.jsx'
 import Record_Act_Est from './pages/Record_Act_Est.jsx'
 import Record_Daily from './pages/Record_Daily.jsx'
 import Use_Credit_Card from './pages/Use_Credit_Card.jsx'
+import Installment_Credit_Card from './pages/Installment_Credit_Card.jsx'
 // Commponent Report
 import Rep_Amount_Receive from '../src/pages/reports/Rep_Amount_Receive.jsx'
 import Rep_Installment_Credit_Card from '../src/pages/reports/Rep_Installment_Credit_Card.jsx'
@@ -17,7 +18,7 @@ import Rep_Next_Expenses_List from '../src/pages/reports/Rep_Next_Expenses_List.
 import Rep_Record_Daily from '../src/pages/reports/Rep_Record_Daily.jsx'
 import Rep_Use_Credit_Card from '../src/pages/reports/Rep_Use_Credit_Card.jsx'
 // Component Other
-import Info from './pages/Info.jsx'
+import ChangePass from './pages/ChangePass.jsx'
 import Signin from './Signin.jsx'
 import User from './pages/User.jsx'
 
@@ -57,6 +58,11 @@ const router = createBrowserRouter([
     path: 'Use_Credit_Card',
     element: <Use_Credit_Card />,
   },
+   {
+    // บันทึกรายการผ่อนชำระบัตรเครดิต
+    path: 'Installment_Credit_Card',
+    element: <Installment_Credit_Card />,
+  },
 
   //Report
   {
@@ -88,8 +94,8 @@ const router = createBrowserRouter([
   // Other routes can be added here
   {
     // ข้อมูลผู้ใช้
-    path: 'Info',
-    element: <Info />,
+    path: 'ChangePass',
+    element: <ChangePass />,
   },
   {
     // จัดการข้อมูลผู้ใช้

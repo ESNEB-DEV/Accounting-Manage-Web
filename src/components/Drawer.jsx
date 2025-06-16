@@ -19,7 +19,7 @@ function Drawer() {
 
     return (
         <>
-            <div className='mx-auto text-center py-4 flex justify-center bg-gray-600 items-center px-10 shadow-md font-Sarabun'>
+            <div className='mx-auto text-center py-4 flex justify-center bg-gray-600 items-center px-10 shadow-md font-NotoSansThai'>
                 <div className='flex justify-between items-center text-white  w-full'>
                     <div className='flex items-center space-x-5'>
                         <button onClick={() => setIsDrawerOpen(true)} className='hover:text-gray-400'>
@@ -35,7 +35,7 @@ function Drawer() {
             </div>
 
             {/* Drawer with slide-in transition */}
-            <div className={`fixed inset-0 z-50 flex pointer-events-none text-gray-600 font-Sarabun ${isDrawerOpen || isClosing ? '' : 'invisible'}`} aria-hidden={!isDrawerOpen && !isClosing} >
+            <div className={`fixed inset-0 z-50 flex pointer-events-none text-gray-600 font-NotoSansThai ${isDrawerOpen || isClosing ? '' : 'invisible'}`} aria-hidden={!isDrawerOpen && !isClosing} >
                 {/* Overlay */}
                 <div
                     className={`fixed inset-0 bg-black opacity-40 transition-opacity duration-300 ${isDrawerOpen || isClosing ? 'opacity-40 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
@@ -54,10 +54,11 @@ function Drawer() {
                                 <MdAttachMoney className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />บันทึกการเงิน</a>
                             <div className="ml-4 mt-1 flex flex-col space-y-1">
                                 <Link to="/Amount_Receive" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกแยกจำนวนเงินที่ได้รับมา</Link>
-                                <Link to="/Record_Daily" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกรายกการค่าใช้จ่ายประจำวัน</Link>
+                                <Link to="/Record_Daily" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกรายรับ - รายจ่าย</Link>
                                 <Link to="/Record_Act_Est" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกประมาณการ / ค่าใช้จ่ายจริง</Link>
                                 <Link to="/Amount_Use" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">กำหนดจำนวนเงินที่ต้องใช้</Link>
                                 <Link to="/Use_Credit_Card" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกรายการใช้บัตรเครดิต</Link>
+                                <Link to="/Installment_Credit_Card" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกรายการผ่อนชำระบัตรเครดิต</Link>
                                 <Link to="/Check_List" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">Check list ค่าใช้จ่ายประจำเดือน</Link>
                             </div>
                         </div>
@@ -76,8 +77,8 @@ function Drawer() {
                             <a className="block px-3 py-2 rounded font-semibold flex items-center bg-gray-600 text-white">
                                 <FaGear className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />ตั้งค่าระบบ</a>
                             <div className="ml-4 mt-1 flex flex-col space-y-1">
-                                <Link to="/Info" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">ข้อมูลผู้ใช้</Link>
                                 <Link to="/User" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">จัดการข้อมูลผู้ใช้งาน</Link>
+                                <Link to="/ChangePass" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">เปลี่ยนรหัสผ่าน</Link>
                             </div>
                         </div>
                     </nav>

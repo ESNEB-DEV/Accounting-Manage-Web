@@ -40,6 +40,22 @@ function Use_Credit_Card() {
 
     const addOrderCreditCard = (e) => {
         e.preventDefault();
+
+        if (!c_name) {
+            alert("กรุณากรอก ชื่อรายการค่าใช้จ่าย");
+            return;
+        }
+
+        if (!f_amount) {
+            alert("กรุณาระบุ จำนวนเงิน");
+            return;
+        }
+
+        if (!d_doc_date) {
+            alert("กรุณาระบุ วันที่");
+            return;
+        }
+
         axios.post('http://localhost:3001/bg_credit_create', {
             c_name: c_name,
             f_amount: f_amount,
@@ -128,70 +144,72 @@ function Use_Credit_Card() {
         setShowEdit(false);
     };
 
+
     return (
         <div>
             <Drawer />
-            <div className="container mx-auto text-center w-[80rem]">
-                <h1 className='flex items-center text-2xl pl-5 text-white h-14 text-left bg-gray-400'><FaCcVisa className='mr-3 w-[20px] h-[20px]' />บันทึกการใช้บัตรเครดิต</h1>
-                <form className='my-5 px-10 py-5 bg-gray-200'>
-                    <div className='flex flex-col md:flex-col lg:flex-row justify-between'>
-                        <div className='flex flex-row'>
-                            <div className='flex flex-col justify-start'>
-                                <label className='text-gray-600 text-left'>รายการจ่าย</label>
-                                <input type="text" value={c_name} onChange={(e) => { setC_name(e.target.value) }} className='border border-gray-300 rounded w-96 p-2 mr-5 focus:outline-none' placeholder='กรุณากรอกข้อมูลรายการจ่าย' />
-                            </div>
-                            <div className='flex flex-col justify-start'>
-                                <label className='text-gray-600 text-left'>จำนวนเงิน</label>
-                                <input type="number" value={f_amount} onChange={(e) => { setF_amount(e.target.value) }} className='border border-gray-300 rounded w-28 p-2 mr-5 focus:outline-none text-right' placeholder='กรุณากรอกจำนวนเงิน' />
-                            </div>
-                            <div className='flex flex-col justify-start'>
-                                <label className='text-gray-600 text-left'>วันที่ใช้จ่าย</label>
-                                <input type="date" value={d_doc_date} onChange={(e) => { setD_doc_date(e.target.value) }} className='border border-gray-300 rounded w-60 p-2 mr-5 focus:outline-none' />
-                            </div>
-                            <div className='flex items-end'>
-                                <button className='bg-gray-600 text-white w-56 h-10 px-4 py-2 rounded hover:bg-gray-500' onClick={addOrderCreditCard}>บันทึกรายการ</button>
-                            </div>
+            <div className="w-full font-NotoSansThai">
+                <h1 className='flex items-center text-xl pl-5 text-white h-14 text-left bg-gray-400'><FaCcVisa className='mr-3 w-[20px] h-[20px]' />บันทึกการใช้บัตรเครดิต</h1>
+                <form className='my-2 px-10 py-5 bg-gray-100 flex sm:flex-col md:flex-col lg:flex-row h-28'>
+                    <div className='flex'>
+                        <div className='flex flex-col justify-start my-2'>
+                            <label className='text-gray-600 text-left'>รายการจ่าย</label>
+                            <input type="text" value={c_name} onChange={(e) => { setC_name(e.target.value) }} className='border border-gray-300 rounded w-96 p-2 mr-5 focus:outline-none h-8' placeholder='กรุณากรอกข้อมูลรายการจ่าย' />
+                        </div>
+                        <div className='flex flex-col justify-start my-2'>
+                            <label className='text-gray-600 text-left'>จำนวนเงิน</label>
+                            <input type="number" value={f_amount} onChange={(e) => { setF_amount(e.target.value) }} className='border border-gray-300 rounded w-28 p-2 mr-5 focus:outline-none text-right h-8' placeholder='กรุณากรอกจำนวนเงิน' />
+                        </div>
+                    </div>
+                    <div className='flex'>
+                        <div className='flex flex-col justify-start my-2'>
+                            <label className='text-gray-600 text-left'>วันที่ใช้จ่าย</label>
+                            <input type="date" value={d_doc_date} onChange={(e) => { setD_doc_date(e.target.value) }} className='border border-gray-300 rounded w-60 p-2 mr-5 focus:outline-none h-8' />
+                        </div>
+                        <div className='flex items-end my-2'>
+                            <button className='bg-gray-600 text-white w-52 h-10 px-4 py-2 rounded hover:bg-gray-500 h-8 flex justify-center items-center' onClick={addOrderCreditCard}>บันทึกรายการ</button>
                         </div>
                     </div>
                 </form>
-                <hr />
-                <table className='w-full '>
-                    <thead>
-                        <tr className='bg-gray-400 h-12 text-lg text-white'>
-                            <th>รายการจ่าย</th>
-                            <th>จำนวนเงิน</th>
-                            <th>วันที่ใช้จ่าย</th>
-                            <th>-</th>
-                        </tr>
-                    </thead>
-                    <tbody className='border border-2'>
-                        {OrderCreditCard && OrderCreditCard.length > 0 ? (
-                            currentItems.map((val) => (
-                                <tr key={val.bg_credit_id} className='hover:bg-gray-200'>
-                                    <td className='text-left px-5 w-[700px]'><p className='text-gray-600'>{val.c_name}</p></td>
-                                    <td><p className='text-gray-600 text-right'>{Number(val.f_amount).toLocaleString()} บาท</p></td>
-                                    <td><p className='text-gray-600 text-right'>{formatThaiDate(val.d_doc_date)}</p></td>
-                                    <td>
-                                        <div className='flex justify-center'>
-                                            <button className=' text-white px-4 py-2 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
-                                                onClick={() => handleEditClick(val)}
-                                            ><FaEdit /></button>
-                                            <button className='text-white px-4 py-2 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.bg_credit_id) }}><MdDelete /></button>
-                                        </div>
+                <div className="fixed-table-body">
+
+                    <table className='w-full'>
+                        <thead>
+                            <tr className='bg-gray-400 h-12 text-lg text-white'>
+                                <th  className='w-96'>รายการจ่าย</th>
+                                <th  className='w-10'>จำนวนเงิน</th>
+                                <th  className='w-44'>วันที่ใช้จ่าย</th>
+                                <th  className='w-20'>-</th>    
+                            </tr>
+                        </thead>
+                        <tbody className='border border-2'>
+                            {OrderCreditCard && OrderCreditCard.length > 0 ? (
+                                currentItems.map((val) => (
+                                    <tr key={val.bg_credit_id} className='hover:bg-gray-200'>
+                                        <td className='text-left px-5 pl-10 w-[200px] md:w-[200px] lg:w-[700px]'><p className='text-gray-600'>{val.c_name}</p></td>
+                                        <td><p className='text-gray-600 text-right'>{Number(val.f_amount).toLocaleString()} บาท</p></td>
+                                        <td><p className='text-gray-600 text-right'>{formatThaiDate(val.d_doc_date)}</p></td>
+                                        <td>
+                                            <div className='flex justify-center'>
+                                                <button className=' text-white px-4 py-2 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
+                                                    onClick={() => handleEditClick(val)}
+                                                ><FaEdit /></button>
+                                                <button className='text-white px-4 py-2 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.bg_credit_id) }}><MdDelete /></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td colSpan={4} className="text-center text-gray-500 py-4">
+                                        ไม่พบข้อมูลรายการ
                                     </td>
                                 </tr>
-                            ))
-                        ) : (
-                            <tr>
-                                <td colSpan={4} className="text-center text-gray-500 py-4">
-                                    ไม่พบข้อมูลรายการใช้บัตรเครดิต
-                                </td>
-                            </tr>
-                        )}
-
-                    </tbody>
-                </table>
-                <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600  ">
+                            )}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600">
                     <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}> <FaAngleLeft className='w-[25px] h-[25px]' /></button>
                     <span>หน้า {currentPage} / {totalPages}</span>
                     <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} > <FaAngleRight className='w-[25px] h-[25px]' /></button>
@@ -219,8 +237,7 @@ function Use_Credit_Card() {
                                         name="c_name"
                                         value={editData.c_name}
                                         onChange={handleEditChange}
-                                        className="border border-gray-300 rounded w-full p-2 focus:outline-none"
-                                    />
+                                        className="border border-gray-300 rounded w-full p-2 focus:outline-none" />
                                 </div>
                                 <div className='flex flex-row gap-4'>
                                     <div className='w-1/2'>
@@ -230,8 +247,7 @@ function Use_Credit_Card() {
                                             name="f_amount"
                                             value={editData.f_amount}
                                             onChange={handleEditChange}
-                                            className="border border-gray-300 rounded w-full p-2 focus:outline-none text-right"
-                                        />
+                                            className="border border-gray-300 rounded w-full p-2 focus:outline-none text-right" />
                                     </div>
                                     <div className='w-1/2'>
                                         <label className="block text-gray-600 text-left mb-1">วันที่ใช้จ่าย</label>
@@ -240,22 +256,18 @@ function Use_Credit_Card() {
                                             name="d_doc_date"
                                             value={editData.d_doc_date}
                                             onChange={handleEditChange}
-                                            className="border border-gray-300 rounded w-full p-2 focus:outline-none"
-                                        />
+                                            className="border border-gray-300 rounded w-full p-2 focus:outline-none" />
                                     </div>
                                 </div>
-
                             </div>
                             <div className="flex justify-center gap-4 mt-6">
                                 <button
                                     className="bg-green-500 text-white px-6 py-2 rounded  hover:bg-green-600"
-                                    onClick={handleSaveEdit}
-                                >บันทึก</button>
+                                    onClick={handleSaveEdit}>บันทึก</button>
                                 <button
                                     className="border border-red-500 text-red-500 px-6 py-2 rounded bg-transparent hover:bg-red-50"
                                     onClick={handleCancelEdit}
-                                    type="button"
-                                >ยกเลิก</button>
+                                    type="button">ยกเลิก</button>
                             </div>
                         </div>
                     </div>

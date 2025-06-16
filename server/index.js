@@ -24,6 +24,10 @@ app.get('/bg_credit', (req, res) => {
     });
 });
 
+// app.get('/bg_credit_sum' , (req,res) => {
+//     db.query('')
+// })
+
 app.post('/bg_credit_create', (req, res) => {
     const { c_name, f_amount, d_doc_date } = req.body;
     db.query('INSERT INTO bg_credit (c_name, f_amount, d_doc_date) VALUES (?, ?, ?)',

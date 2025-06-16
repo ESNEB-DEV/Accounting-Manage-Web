@@ -1,13 +1,14 @@
 import './App.css'
-import SignIn from './Signin'
+// import SignIn from './Signin'
+import Dashboard from './pages/Dashboard'
 
 function App() {
 
   return (
     <>
-      <SignIn />
+      <Dashboard />
     </>
   )
-}
+} 
 
 export default App
