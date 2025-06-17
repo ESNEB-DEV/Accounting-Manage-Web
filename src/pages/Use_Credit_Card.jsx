@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Drawer from '../components/Drawer.jsx'
+import config from '../config.js';
 import { FaCcVisa, FaEdit, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
@@ -30,7 +31,7 @@ function Use_Credit_Card() {
     const totalPages = Math.ceil(OrderCreditCard.length / itemsPerPage);
 
     const getOrderCreditCard = async () => {
-        const response = await axios.get(`http://localhost:3001/bg_credit`)
+        const response = await axios.get(`${config.API_URL}/bg_credit`)
         setOrderCreditCard(response.data)
     }
 
@@ -56,7 +57,7 @@ function Use_Credit_Card() {
             return;
         }
 
-        axios.post('http://localhost:3001/bg_credit_create', {
+        axios.post(`${config.API_URL}/bg_credit_create`, {
             c_name: c_name,
             f_amount: f_amount,
             d_doc_date: d_doc_date
@@ -78,15 +79,13 @@ function Use_Credit_Card() {
         setD_doc_date("");
     };
 
-    console.log(OrderCreditCard);
-
     const handleDeleteClick = (bg_credit_id) => {
         setDeleteId(bg_credit_id);
         setShowConfirm(true);
     };
 
     const confirmDelete = () => {
-        axios.delete(`http://localhost:3001/bg_credit_delete/${deleteId}`).then(() => {
+        axios.delete(`${config.API_URL}/bg_credit_delete/${deleteId}`).then(() => {
             setOrderCreditCard(OrderCreditCard.filter((val) => val.bg_credit_id !== deleteId));
             setShowConfirm(false);
             setDeleteId(null);
@@ -126,7 +125,7 @@ function Use_Credit_Card() {
     };
 
     const handleSaveEdit = () => {
-        axios.put(`http://localhost:3001/bg_credit_update/${editData.bg_credit_id}`, {
+        axios.put(`${config.API_URL}/bg_credit_update/${editData.bg_credit_id}`, {
             c_name: editData.c_name,
             f_amount: editData.f_amount,
             d_doc_date: editData.d_doc_date
@@ -148,7 +147,7 @@ function Use_Credit_Card() {
         <div>
             <Drawer />
             <div className="w-full font-NotoSansThai">
-                <h1 className='flex items-center text-xl pl-5 text-white h-14 text-left bg-gray-400 pl-11'><FaCcVisa className='mr-3 w-[20px] h-[20px]' />บันทึกการใช้บัตรเครดิต</h1>
+                <h1 className='flex items-center text-xl pl-10 text-white h-14 text-left bg-gray-400'><FaCcVisa className='mr-3 w-[20px] h-[20px]' />บันทึกการใช้บัตรเครดิต</h1>
                 <form className='my-2 px-10 py-5 bg-gray-100 flex sm:flex-col md:flex-col lg:flex-row h-28'>
                     <div className='flex'>
                         <div className='flex flex-col justify-start my-2'>
@@ -170,15 +169,14 @@ function Use_Credit_Card() {
                         </div>
                     </div>
                 </form>
-                <div className="fixed-table-body">
-
+                <div className="fixed-table-body w-[90rem] mx-auto">
                     <table className='w-full'>
                         <thead>
                             <tr className='bg-gray-400 h-12 text-lg text-white'>
-                                <th className='w-96'>รายการจ่าย</th>
-                                <th className='w-10'>จำนวนเงิน</th>
-                                <th className='w-44'>วันที่ใช้จ่าย</th>
-                                <th className='w-20'>-</th>
+                                <th className='w-[50rem]'>รายการจ่าย</th>
+                                <th>จำนวนเงิน</th>
+                                <th>วันที่ใช้จ่าย</th>
+                                <th>-</th>
                             </tr>
                         </thead>
                         <tbody className='border border-2'>

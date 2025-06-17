@@ -24,10 +24,6 @@ app.get('/bg_credit', (req, res) => {
     });
 });
 
-// app.get('/bg_credit_sum' , (req,res) => {
-//     db.query('')
-// })
-
 app.post('/bg_credit_create', (req, res) => {
     const { c_name, f_amount, d_doc_date } = req.body;
     db.query('INSERT INTO bg_credit (c_name, f_amount, d_doc_date) VALUES (?, ?, ?)',
@@ -109,7 +105,36 @@ app.get('/bg_daily_pay', (req, res) => {
     });
 });
 
+app.get('/bg_daily_sum_recieve', (req, res) => {
+    db.query('SELECT sum(f_amount) as SumRecieve FROM bg_daily WHERE c_type = 1', (err, results) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(results);
+        }
+    });
+});
 
+app.get('/bg_daily_sum_pay', (req, res) => {
+    db.query('SELECT sum(f_amount) as SumPay FROM bg_daily WHERE c_type = 0', (err, results) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+app.delete('/bg_daily_delete/:bg_daily_id', (req, res) => {
+    const bg_daily_id = req.params.bg_daily_id;
+    db.query('DELETE FROM bg_daily WHERE bg_daily_id = ?', bg_daily_id, (err, results) => {
+        if (err) {
+            console.log(bg_daily_id);
+        } else {
+            res.send(results);
+        }
+    });
+});
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
