@@ -125,6 +125,17 @@ app.get('/bg_daily_sum_pay', (req, res) => {
     });
 });
 
+app.get('/bg_daily_sum_today', (req, res) => {
+    db.query('SELECT SUM(f_amount) AS SumToday FROM bg_daily WHERE c_type = 0 AND DATE(t_create_dt) = CURDATE();', (err, results) => {
+        if (err) {
+            res.status(500).send(err);
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+
 app.delete('/bg_daily_delete/:bg_daily_id', (req, res) => {
     const bg_daily_id = req.params.bg_daily_id;
     db.query('DELETE FROM bg_daily WHERE bg_daily_id = ?', bg_daily_id, (err, results) => {

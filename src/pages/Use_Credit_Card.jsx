@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Drawer from '../components/Drawer.jsx'
 import config from '../config.js';
+import date from '../date.js';
 import { FaCcVisa, FaEdit, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
-import formatThaiDate from '../components/DateFormat';
 
 function Use_Credit_Card() {
 
     const [OrderCreditCard, setOrderCreditCard] = useState([]);
     const [c_name, setC_name] = useState("");
-    const [f_amount, setF_amount] = useState(0);
+    const [f_amount, setF_amount] = useState("");
     const [d_doc_date, setD_doc_date] = useState("");
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
@@ -75,7 +75,7 @@ function Use_Credit_Card() {
         });
 
         setC_name("");
-        setF_amount(0);
+        setF_amount("");
         setD_doc_date("");
     };
 
@@ -98,20 +98,11 @@ function Use_Credit_Card() {
     };
 
     const handleEditClick = (item) => {
-        // แปลงวันที่ให้อยู่ในรูปแบบ YYYY-MM-DD
-        let formattedDate = "";
-        if (item.d_doc_date) {
-            const date = new Date(item.d_doc_date);
-            const year = date.getFullYear();
-            const month = String(date.getMonth() + 1).padStart(2, '0');
-            const day = String(date.getDate()).padStart(2, '0');
-            formattedDate = `${year}-${month}-${day}`;
-        }
         setEditData({
             bg_credit_id: item.bg_credit_id,
             c_name: item.c_name,
             f_amount: item.f_amount,
-            d_doc_date: formattedDate
+            d_doc_date: date.formatInputDate(item.d_doc_date)
         });
         setShowEdit(true);
     };
@@ -185,7 +176,7 @@ function Use_Credit_Card() {
                                     <tr key={val.bg_credit_id} className='hover:bg-gray-200'>
                                         <td className='text-left px-5 pl-10 w-[200px] md:w-[200px] lg:w-[700px]'><p className='text-gray-600'>{val.c_name}</p></td>
                                         <td><p className='text-gray-600 text-right'>{Number(val.f_amount).toLocaleString()} บาท</p></td>
-                                        <td><p className='text-gray-600 text-right'>{formatThaiDate(val.d_doc_date)}</p></td>
+                                        <td><p className='text-gray-600 text-right'>{date.formatThaiDate(val.d_doc_date)}</p></td>
                                         <td>
                                             <div className='flex justify-center'>
                                                 <button className=' text-white px-4 py-2 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
@@ -216,8 +207,8 @@ function Use_Credit_Card() {
                         <div className="bg-white rounded-lg shadow-lg p-8 w-96">
                             <div className="mb-6 text-lg text-gray-700 text-center">ต้องการลบข้อมูลหรือไม่ ?</div>
                             <div className="flex justify-center gap-4">
-                                <button className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600" onClick={confirmDelete} >ตกลง</button>
                                 <button className="border border-red-500 text-red-500 px-6 py-2 rounded bg-transparent hover:bg-red-50" onClick={cancelDelete} type="button" >ยกเลิก</button>
+                                <button className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600" onClick={confirmDelete} >ตกลง</button>
                             </div>
                         </div>
                     </div>
@@ -259,12 +250,14 @@ function Use_Credit_Card() {
                             </div>
                             <div className="flex justify-center gap-4 mt-6">
                                 <button
-                                    className="bg-green-500 text-white px-6 py-2 rounded  hover:bg-green-600"
-                                    onClick={handleSaveEdit}>บันทึก</button>
-                                <button
                                     className="border border-red-500 text-red-500 px-6 py-2 rounded bg-transparent hover:bg-red-50"
                                     onClick={handleCancelEdit}
-                                    type="button">ยกเลิก</button>
+                                    type="button">ยกเลิก
+                                </button>
+                                <button
+                                    className="bg-green-500 text-white px-6 py-2 rounded  hover:bg-green-600"
+                                    onClick={handleSaveEdit}>บันทึก
+                                </button>
                             </div>
                         </div>
                     </div>

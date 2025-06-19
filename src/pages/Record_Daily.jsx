@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import Drawer from '../components/Drawer.jsx'
 import config from '../config.js';
+import date from '../date.js';
 import { FaFileInvoiceDollar, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import axios from 'axios';
 import { MdDelete } from "react-icons/md";
-import formatThaiDate from '../components/DateFormat.jsx';
 
 function Record_Daily() {
 
     const [items, setItems] = useState([]);
     const [c_name, setC_name] = useState('');
-    const [f_amount, setF_amount] = useState(0);
+    const [f_amount, setF_amount] = useState('');
     const [c_type, setC_type] = useState(0);
     const [recieve, setRecieve] = useState([]);
     const [pay, setPay] = useState([]);
     const [sumrecieve, setSumRecieve] = useState([]);
     const [sumpay, setSumPay] = useState([]);
+    const [sumtoday, setSumToday] = useState([]);
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -63,12 +64,20 @@ function Record_Daily() {
             })
     }
 
+    const getSumToday = () => {
+        axios.get(`${config.API_URL}/bg_daily_sum_today`)
+            .then((response) => {
+                setSumToday(response.data);
+            })
+    }
+
     useEffect(() => {
         getItems();
         getRecieve();
         getPay();
         getSumRecieve();
         getSumPay();
+        getSumToday();
     }, []);
 
     const addItems = (e) => {
@@ -102,9 +111,10 @@ function Record_Daily() {
             getPay();
             getSumRecieve();
             getSumPay();
+            getSumToday();
         })
         setC_name('');
-        setF_amount(0);
+        setF_amount('');
         setC_type(0);
     }
 
@@ -121,6 +131,7 @@ function Record_Daily() {
                 setDeleteId(null);
                 getSumRecieve();
                 getSumPay();
+                getSumToday();
             })
             .catch((err) => {
                 alert("เกิดข้อผิดพลาดในการลบข้อมูล");
@@ -134,6 +145,8 @@ function Record_Daily() {
         setDeleteId(null);
     };
 
+    const today = new Date();
+
     return (
         <div>
             <Drawer />
@@ -141,7 +154,7 @@ function Record_Daily() {
                 <h1 className='flex items-center text-xl pl-10 text-white h-14 text-left bg-gray-400'>
                     <FaFileInvoiceDollar className='mr-3 w-[20px] h-[20px]' />บันทึกรายรับ - รายจ่าย</h1>
                 <form className='my-2 px-10 py-5 bg-gray-100 flex sm:flex-col md:flex-col lg:flex-row h-50'>
-                    <div className='w-1/2'>
+                    {/* <div className='w-1/2'>
                         <label>ค้นหารายการ</label>
                         <div className='border border-solid border-gray-300 p-2 mr-10'>
                             <div className='mt-4'>
@@ -164,10 +177,10 @@ function Record_Daily() {
                                 <button type='button' className='bg-gray-600 text-white w-36 h-10 px-4 py-2 rounded hover:bg-gray-500 h-8 flex justify-center items-center'>ค้นหา</button>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className='w-1/2'>
                         <label>เพิ่มรายการ</label>
-                        <div className='border border-solid border-gray-300 p-2'>
+                        <div className='border border-solid border-gray-300 p-2 mr-10'>
                             <div className='flex flex-row items-center'>
                                 <label className='pl-3'>รายการ : </label>
                                 <input type="text"
@@ -202,6 +215,16 @@ function Record_Daily() {
                             <div className='mt-2 mr-15 p-2'>
                                 <button className='bg-gray-600 text-white w-36 h-10 px-4 py-2 rounded hover:bg-gray-500 h-8 flex justify-center items-center text-sm' onClick={addItems}>เพิ่มรายการใหม่</button>
                             </div>
+                        </div>
+                    </div>
+                    <div className='w-1/2'>
+                        <label>แสดงยอดใช้จ่ายประจำวัน</label>
+                        <div className='border border-solid border-gray-300 p-2 pl-4 h-36'>
+                            <h1 className='mb-2 flex flex-row'>วันที่ : <p className='pl-2 font-bold'>{date.formatThaiDate(date.CurrentDateDisplay())}</p></h1>
+                            <h3 className='flex flex-row'>จำนวนเงินที่ใช้ : {
+                                sumtoday.map((val) => (
+                                    <p key={val.SumToday} className='pl-2 font-bold'>{Number(val.SumToday).toLocaleString()} บาท</p>
+                                ))}</h3>
                         </div>
                     </div>
                 </form>
@@ -273,7 +296,7 @@ function Record_Daily() {
                                                 {pays ? Number(pays.f_amount).toLocaleString() + ' บาท' : '-'}
                                             </p>
                                         </td>
-                                        <td><p className='text-gray-600 text-right'>{formatThaiDate(val.t_create_dt)}</p></td>
+                                        <td><p className='text-gray-600 text-right'>{date.formatThaiDate(val.t_create_dt)}</p></td>
                                         <td className='text-center'>
                                             <button className='text-white px-4 py-2 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.bg_daily_id) }}><MdDelete /></button>
                                         </td>
@@ -300,8 +323,8 @@ function Record_Daily() {
                     <div className="bg-white rounded-lg shadow-lg p-8 w-96">
                         <div className="mb-6 text-lg text-gray-700 text-center">ต้องการลบข้อมูลหรือไม่ ?</div>
                         <div className="flex justify-center gap-4">
-                            <button className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600" onClick={confirmDelete} >ตกลง</button>
                             <button className="border border-red-500 text-red-500 px-6 py-2 rounded bg-transparent hover:bg-red-50" onClick={cancelDelete} type="button" >ยกเลิก</button>
+                            <button className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600" onClick={confirmDelete} >ตกลง</button>
                         </div>
                     </div>
                 </div>
