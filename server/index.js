@@ -160,15 +160,26 @@ app.get('/bg_installment', (req, res) => {
 });
 
 app.post('/bg_installment_create', (req, res) => {
-    const { c_name, f_amount, c_preriod, d_doc_date } = req.body;
-    db.query('INSERT INTO bg_installment (c_name, f_amount, c_preriod , d_doc_date) VALUES (?, ?, ?, ?)',
-        [c_name, f_amount, c_preriod, d_doc_date], (err, results) => {
+    const { c_name, f_amount, c_preriod, d_doc_date, active } = req.body;
+    db.query('INSERT INTO bg_installment (c_name, f_amount, c_preriod , d_doc_date , active) VALUES (?, ?, ?, ? ,?)',
+        [c_name, f_amount, c_preriod, d_doc_date, active], (err, results) => {
             if (err) {
                 console.log(err);
             } else {
                 res.json({ bg_installment_id: results.insertId });
             }
         });
+});
+
+app.delete('/bg_installment_delete/:bg_installment_id', (req, res) => {
+    const bg_installment_id = req.params.bg_installment_id;
+    db.query('DELETE FROM bg_installment WHERE bg_installment_id = ?', bg_installment_id, (err, results) => {
+        if (err) {
+            console.log(bg_installment_id);
+        } else {
+            res.send(results);
+        }
+    });
 });
 
 app.listen(3001, () => {

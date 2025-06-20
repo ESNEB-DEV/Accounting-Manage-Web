@@ -17,6 +17,8 @@ function Installment_Credit_Card() {
         return today.toISOString().split('T')[0];
     });
     const [active, setActive] = useState(1);
+    const [showConfirm, setShowConfirm] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
     const getInstallment = async () => {
         const response = await axios.get(`${config.API_URL}/bg_installment`);
@@ -25,7 +27,6 @@ function Installment_Credit_Card() {
 
     useEffect(() => {
         getInstallment();
-        console.log(items);
     }, []);
 
     const addItems = (e) => {
@@ -61,9 +62,27 @@ function Installment_Credit_Card() {
         })
         setC_name('');
         setF_amount('');
-        setC_Preriod('3');
+        setC_Preriod(3);
     }
 
+    const handleDeleteClick = (bg_installment_id) => {
+        setDeleteId(bg_installment_id);
+        setShowConfirm(true);
+    };
+
+    const confirmDelete = () => {
+        axios.delete(`${config.API_URL}/bg_installment_delete/${deleteId}`)
+            .then(() => {
+                setItems(items.filter((val) => val.bg_installment_id !== deleteId));
+                setShowConfirm(false);
+                setDeleteId(null);
+            })
+    };
+
+    const cancelDelete = () => {
+        setShowConfirm(false);
+        setDeleteId(null);
+    };
 
     return (
         <div>
@@ -104,6 +123,12 @@ function Installment_Credit_Card() {
                                     value={d_doc_date}
                                     onChange={(e) => { setD_doc_date(e.target.value) }}
                                     className='border border-gray-300 rounded w-50 p-2 mr-5 focus:outline-none h-7' />
+                                <input type="checkbox"
+                                    value={1}
+                                    checked={active === 1}
+                                    onChange={() => setActive(1)}
+                                    className='mr-2' />
+                                <label>Active</label>
                             </div>
                             <div className='mr-15 mt-1 p-2'>
                                 <button className='bg-gray-600 text-white w-36 px-4 py-2 rounded hover:bg-gray-500 h-8 flex justify-center items-center' onClick={addItems}>
@@ -156,6 +181,17 @@ function Installment_Credit_Card() {
                         </tbody>
                     </table>
                 </div>
+                {showConfirm && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+                        <div className="bg-white rounded-lg shadow-lg p-8 w-96">
+                            <div className="mb-6 text-lg text-gray-700 text-center">ต้องการลบข้อมูลหรือไม่ ?</div>
+                            <div className="flex justify-center gap-4">
+                                <button className="border border-red-500 text-red-500 px-6 py-2 rounded bg-transparent hover:bg-red-50" onClick={cancelDelete} type="button" >ยกเลิก</button>
+                                <button className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600" onClick={confirmDelete} >ตกลง</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
 
             </div>
         </div>

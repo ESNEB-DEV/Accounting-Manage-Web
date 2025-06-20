@@ -145,8 +145,6 @@ function Record_Daily() {
         setDeleteId(null);
     };
 
-    const today = new Date();
-
     return (
         <div>
             <Drawer />
