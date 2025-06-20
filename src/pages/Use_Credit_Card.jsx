@@ -11,7 +11,10 @@ function Use_Credit_Card() {
     const [OrderCreditCard, setOrderCreditCard] = useState([]);
     const [c_name, setC_name] = useState("");
     const [f_amount, setF_amount] = useState("");
-    const [d_doc_date, setD_doc_date] = useState("");
+    const [d_doc_date, setD_doc_date] = useState(() => {
+        const today = new Date();
+        return today.toISOString().split('T')[0]; 
+    });
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -23,6 +26,7 @@ function Use_Credit_Card() {
         f_amount: 0,
         d_doc_date: ""
     });
+
 
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -134,12 +138,13 @@ function Use_Credit_Card() {
         setShowEdit(false);
     };
 
+
     return (
         <div>
             <Drawer />
-            <div className="w-full font-NotoSansThai">
+            <div className="w-full font-NotoSansThai text-gray-600 text-sm">
                 <h1 className='flex items-center text-xl pl-10 text-white h-14 text-left bg-gray-400'><FaCcVisa className='mr-3 w-[20px] h-[20px]' />บันทึกการใช้บัตรเครดิต</h1>
-                <form className='my-2 px-10 py-5 bg-gray-100 flex sm:flex-col md:flex-col lg:flex-row h-28'>
+                <form className='my-2 px-10 py-5 bg-gray-100 flex sm:flex-col md:flex-col lg:flex-row h-24'>
                     <div className='flex'>
                         <div className='flex flex-col justify-start my-2'>
                             <label className='text-gray-600 text-left'>รายการจ่าย</label>
@@ -147,16 +152,20 @@ function Use_Credit_Card() {
                         </div>
                         <div className='flex flex-col justify-start my-2'>
                             <label className='text-gray-600 text-left'>จำนวนเงิน</label>
-                            <input type="number" value={f_amount} onChange={(e) => { setF_amount(e.target.value) }} className='border border-gray-300 rounded w-28 p-2 mr-5 focus:outline-none text-right h-8' placeholder='กรุณากรอกจำนวนเงิน' />
+                            <input type="number" value={f_amount} onChange={(e) => { setF_amount(e.target.value) }} className='border border-gray-300 rounded w-28 p-2 mr-5 focus:outline-none text-right h-8' placeholder='0' />
                         </div>
                     </div>
                     <div className='flex'>
                         <div className='flex flex-col justify-start my-2'>
                             <label className='text-gray-600 text-left'>วันที่ใช้จ่าย</label>
-                            <input type="date" value={d_doc_date} onChange={(e) => { setD_doc_date(e.target.value) }} className='border border-gray-300 rounded w-60 p-2 mr-5 focus:outline-none h-8' />
+                            <input type="date"
+                                value={d_doc_date}
+                                onChange={(e) => { setD_doc_date(e.target.value) }}
+                                className='border border-gray-300 rounded w-60 p-2 mr-5 focus:outline-none h-8'
+                            />
                         </div>
-                        <div className='flex items-end my-2'>
-                            <button className='bg-gray-600 text-white w-52 h-10 px-4 py-2 rounded hover:bg-gray-500 h-8 flex justify-center items-center' onClick={addOrderCreditCard}>บันทึกรายการ</button>
+                        <div className='flex items-end'>
+                            <button className='bg-gray-600 text-white w-52 h-8 rounded hover:bg-gray-500  flex justify-center items-center' onClick={addOrderCreditCard}>บันทึกรายการ</button>
                         </div>
                     </div>
                 </form>
@@ -197,7 +206,7 @@ function Use_Credit_Card() {
                         </tbody>
                     </table>
                 </div>
-                <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600">
+                <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600 text-sm">
                     <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}> <FaAngleLeft className='w-[25px] h-[25px]' /></button>
                     <span>หน้า {currentPage} / {totalPages}</span>
                     <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} > <FaAngleRight className='w-[25px] h-[25px]' /></button>

@@ -147,6 +147,30 @@ app.delete('/bg_daily_delete/:bg_daily_id', (req, res) => {
     });
 });
 
+
+//บันทึกรายการผ่อนชำระบัตรเคดิต
+app.get('/bg_installment', (req, res) => {
+    db.query('SELECT * FROM bg_installment ORDER BY bg_installment_id DESC', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
+app.post('/bg_installment_create', (req, res) => {
+    const { c_name, f_amount, c_preriod, d_doc_date } = req.body;
+    db.query('INSERT INTO bg_installment (c_name, f_amount, c_preriod , d_doc_date) VALUES (?, ?, ?, ?)',
+        [c_name, f_amount, c_preriod, d_doc_date], (err, results) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({ bg_installment_id: results.insertId });
+            }
+        });
+});
+
 app.listen(3001, () => {
     console.log('Server is running on port 3001');
 }); 

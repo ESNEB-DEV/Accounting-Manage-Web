@@ -150,8 +150,8 @@ function Record_Daily() {
     return (
         <div>
             <Drawer />
-            <div className="w-full mx-auto font-NotoSansThai text-gray-600">
-                <h1 className='flex items-center text-xl pl-10 text-white h-14 text-left bg-gray-400'>
+            <div className="w-full mx-auto font-NotoSansThai text-sm text-gray-600">
+                <h1 className='flex items-center text-lg pl-10 text-white h-14 text-left bg-gray-400'>
                     <FaFileInvoiceDollar className='mr-3 w-[20px] h-[20px]' />บันทึกรายรับ - รายจ่าย</h1>
                 <form className='my-2 px-10 py-5 bg-gray-100 flex sm:flex-col md:flex-col lg:flex-row h-50'>
                     {/* <div className='w-1/2'>
@@ -194,9 +194,9 @@ function Record_Daily() {
                                 <input type="number"
                                     value={f_amount}
                                     onChange={(e) => { setF_amount(e.target.value) }}
-                                    className='border border-gray-300 rounded w-48 p-2 mr-5 focus:outline-none h-8'
+                                    className='border border-gray-300 rounded w-48 p-2 focus:outline-none h-8'
                                     placeholder='กรุณากรอกจำนวนเงิน' />
-                                <label>รับ/จ่าย : </label>
+                                <label className='ml-5'>รายการรับ/จ่าย : </label>
                                 <input type="radio"
                                     id="receive"
                                     name="payment_type"
@@ -213,7 +213,7 @@ function Record_Daily() {
                                 <label htmlFor="pay"> จ่ายเงิน  </label>
                             </div>
                             <div className='mt-2 mr-15 p-2'>
-                                <button className='bg-gray-600 text-white w-36 h-10 px-4 py-2 rounded hover:bg-gray-500 h-8 flex justify-center items-center text-sm' onClick={addItems}>เพิ่มรายการใหม่</button>
+                                <button className='bg-gray-600 text-white w-36 px-4 py-2 rounded hover:bg-gray-500 h-8 flex justify-center items-center text-sm' onClick={addItems}>เพิ่มรายการใหม่</button>
                             </div>
                         </div>
                     </div>
@@ -228,7 +228,7 @@ function Record_Daily() {
                         </div>
                     </div>
                 </form>
-                <table className='w-[90rem] mx-auto border border-solid border-gray-300 '>
+                <table className='w-[90rem] mx-auto border border-solid border-gray-300 text-sm '>
                     <thead>
                         <tr className='bg-gray-400 h-12 text-lg text-white'>
                             <th className='w-50'>รายรับ</th>
@@ -313,7 +313,7 @@ function Record_Daily() {
                     </tbody>
                 </table>
             </div>
-            <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600">
+            <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600 text-sm">
                 <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}> <FaAngleLeft className='w-[25px] h-[25px]' /></button>
                 <span>หน้า {currentPage} / {totalPages}</span>
                 <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} > <FaAngleRight className='w-[25px] h-[25px]' /></button>
