@@ -21,8 +21,6 @@ function Record_Daily() {
     const [deleteId, setDeleteId] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
-    const [date1, setDate1] = useState('');
-    const [date2, setDate2] = useState('');
 
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -152,30 +150,6 @@ function Record_Daily() {
                 <h1 className='flex items-center text-lg pl-10 text-white h-14 text-left bg-gray-400'>
                     <FaFileInvoiceDollar className='mr-3 w-[20px] h-[20px]' />บันทึกรายรับ - รายจ่าย</h1>
                 <form className='my-2 px-10 py-5 bg-gray-100 flex sm:flex-col md:flex-col lg:flex-row h-50'>
-                    {/* <div className='w-1/2'>
-                        <label>ค้นหารายการ</label>
-                        <div className='border border-solid border-gray-300 p-2 mr-10'>
-                            <div className='mt-4'>
-                                <label className='pr-2'>เริ่มวันที่ :</label>
-                                <input type="date"
-                                    name='date1'
-                                    className='border border-gray-300 rounded w-36 p-2 mr-5 focus:outline-none h-7'
-                                    value={date1}
-                                    onChange={(e) => setDate1(e.target.value)}
-                                />
-                                <label className='pr-2'>ถึงวันที่ :</label>
-                                <input type="date"
-                                    name='date2'
-                                    className='border border-gray-300 rounded w-36 p-2 mr-5 focus:outline-none h-7'
-                                    value={date2}
-                                    onChange={(e) => setDate2(e.target.value)}
-                                />
-                            </div>
-                            <div className='mt-9 mr-15 p-2'>
-                                <button type='button' className='bg-gray-600 text-white w-36 h-10 px-4 py-2 rounded hover:bg-gray-500 h-8 flex justify-center items-center'>ค้นหา</button>
-                            </div>
-                        </div>
-                    </div> */}
                     <div className='w-1/2'>
                         <label>เพิ่มรายการ</label>
                         <div className='border border-solid border-gray-300 p-2 mr-10'>

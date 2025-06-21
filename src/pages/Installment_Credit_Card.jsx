@@ -5,6 +5,9 @@ import date from '../date.js';
 import axios from 'axios';
 import { FaTable, FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { styled } from '@mui/material/styles';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 function Installment_Credit_Card() {
 
@@ -19,6 +22,11 @@ function Installment_Credit_Card() {
     const [active, setActive] = useState(1);
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
+    const [showEdit, setShowEdit] = useState(false);
+    const [editData, setEditData] = useState({
+        active: 1
+    });
+
 
     const getInstallment = async () => {
         const response = await axios.get(`${config.API_URL}/bg_installment`);
@@ -49,9 +57,9 @@ function Installment_Credit_Card() {
             d_doc_date: d_doc_date,
             active: active
         }).then((response) => {
-            const newItem = response.data.bg_daily_id;
+            const newItem = response.data.bg_installment_id;
             setItems([{
-                bg_daily_id: newItem,
+                bg_installment_id: newItem,
                 c_name: c_name,
                 f_amount: f_amount,
                 c_preriod: c_preriod,
@@ -64,6 +72,22 @@ function Installment_Credit_Card() {
         setF_amount('');
         setC_Preriod(3);
     }
+
+    const handleEditClick = (item) => {
+        setEditData({
+            active: item.active,
+        });
+        setShowEdit(true);
+    };
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
 
     const handleDeleteClick = (bg_installment_id) => {
         setDeleteId(bg_installment_id);
@@ -83,6 +107,58 @@ function Installment_Credit_Card() {
         setShowConfirm(false);
         setDeleteId(null);
     };
+
+    const handleCancelEdit = () => {
+        setShowEdit(false);
+    };
+
+    const handleSaveEdit = () => {
+        axios.put(`${config.API_URL}/bg_credit_update/${editData.bg_credit_id}`, {
+            c_name: editData.c_name,
+            f_amount: editData.f_amount,
+            d_doc_date: editData.d_doc_date
+        }).then(() => {
+            setOrderCreditCard(OrderCreditCard.map(item =>
+                item.bg_credit_id === editData.bg_credit_id
+                    ? { ...item, ...editData }
+                    : item
+            ));
+            setShowEdit(false);
+        });
+    };
+
+    const Android12Switch = styled(Switch)(({ theme }) => ({
+        padding: 8,
+        '& .MuiSwitch-track': {
+            borderRadius: 22 / 2,
+            '&::before, &::after': {
+                content: '""',
+                position: 'absolute',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: 16,
+                height: 16,
+            },
+            '&::before': {
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                    theme.palette.getContrastText(theme.palette.primary.main),
+                )}" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/></svg>')`,
+                left: 12,
+            },
+            '&::after': {
+                backgroundImage: `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 24 24"><path fill="${encodeURIComponent(
+                    theme.palette.getContrastText(theme.palette.primary.main),
+                )}" d="M19,13H5V11H19V13Z" /></svg>')`,
+                right: 12,
+            },
+        },
+        '& .MuiSwitch-thumb': {
+            boxShadow: 'none',
+            width: 16,
+            height: 16,
+            margin: 2,
+        },
+    }));
 
     return (
         <div>
@@ -127,7 +203,8 @@ function Installment_Credit_Card() {
                                     value={1}
                                     checked={active === 1}
                                     onChange={() => setActive(1)}
-                                    className='mr-2' />
+                                    className='mr-2'
+                                    disabled />
                                 <label>Active</label>
                             </div>
                             <div className='mr-15 mt-1 p-2'>
@@ -151,15 +228,30 @@ function Installment_Credit_Card() {
                                 <th>-</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            {items && items.length > 0 ? (
+                        <tbody className='border border-2'>
+                            {items.length > 0 ? (
                                 items.map((val) => (
                                     <tr key={val.bg_installment_id} className='hover:bg-gray-200'>
                                         <td className='w-[40rem]'><div className='pl-10'>{val.c_name}</div></td>
-                                        <td><div className='text-right pr-5'>{Number(val.f_amount).toLocaleString()} บาท</div></td>
+                                        <td><div className='text-right pr-5'>{Number(val.f_amount).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })} บาท</div></td>
                                         <td><div className='text-center'>{val.c_preriod}</div></td>
-                                        <td><div className='text-center'>{val.active}</div></td>
-                                        <td></td>
+                                        <td>
+                                            <div className={`text-center ${val.active === 0 ? 'text-gray-300' : 'text-green-600'}`}>
+                                                {val.active === 0 ? 'ผ่อนครบแล้ว' : 'อยู่ในช่วงผ่อนชำระ'}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className='text-right pr-5'>
+                                                {val.c_preriod && Number(val.c_preriod) > 0
+                                                    ? Number(val.f_amount / val.c_preriod).toLocaleString(undefined, {
+                                                        minimumFractionDigits: 2,
+                                                        maximumFractionDigits: 2
+                                                    }) : '-'} บาท
+                                            </div>
+                                        </td>
                                         <td><div className='text-right pr-5'>{date.formatThaiDate(val.d_doc_date)}</div></td>
                                         <td>
                                             <div className='flex justify-center '>
@@ -188,6 +280,32 @@ function Installment_Credit_Card() {
                             <div className="flex justify-center gap-4">
                                 <button className="border border-red-500 text-red-500 px-6 py-2 rounded bg-transparent hover:bg-red-50" onClick={cancelDelete} type="button" >ยกเลิก</button>
                                 <button className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600" onClick={confirmDelete} >ตกลง</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {showEdit && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+                        <div className="bg-white rounded-lg shadow-lg p-8 w-96">
+                            <div className="mb-6 text-lg text-gray-700 text-center">แก้ไขรายการ</div>
+                            <div className="flex flex-col gap-4">
+                                <div className='text-center'>
+                                    <FormControlLabel
+                                        control={<Android12Switch />}
+                                        label="ปิดการผ่อนชำระ"
+                                    />
+                                </div>
+                            </div>
+                            <div className="flex justify-center gap-4 mt-6">
+                                <button
+                                    className="border border-red-500 text-red-500 px-6 py-2 rounded bg-transparent hover:bg-red-50"
+                                    onClick={handleCancelEdit}
+                                    type="button">ยกเลิก
+                                </button>
+                                <button
+                                    className="bg-green-500 text-white px-6 py-2 rounded  hover:bg-green-600"
+                                    onClick={handleSaveEdit}>บันทึก
+                                </button>
                             </div>
                         </div>
                     </div>
