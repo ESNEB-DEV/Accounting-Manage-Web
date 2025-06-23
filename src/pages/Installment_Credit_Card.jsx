@@ -3,7 +3,7 @@ import Drawer from '../components/Drawer'
 import config from '../config';
 import date from '../date.js';
 import axios from 'axios';
-import { FaTable, FaEdit } from "react-icons/fa";
+import { FaTable, FaEdit, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
@@ -19,22 +19,47 @@ function Installment_Credit_Card() {
         const today = new Date();
         return today.toISOString().split('T')[0];
     });
-    const [active, setActive] = useState(1);
+    const [i_active, setI_active] = useState(1);
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
     const [showEdit, setShowEdit] = useState(false);
     const [editData, setEditData] = useState({
-        active: 1
+        bg_installment_id: null,
+        i_active: 0
     });
+    const [countAct, setCountAct] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
 
+    // Pagination logic
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+
+
+    const sumActMonth = items
+        .filter(item => item.i_active === 1) //เลือกเฉพาะรายการที่ i_active มีค่าเท่ากับ 1 (แปลว่าใช้งานอยู่)
+        .reduce((sum, item) => {  //reduce((sum, item) => { ... }, 0) รวมค่าทั้งหมดโดยเริ่มต้นที่ 0
+            const perMonth = Number(item.f_amount) / Number(item.c_preriod || 1); // แปลง f_amount เป็นตัวเลข แล้วหารด้วย c_preriod (จำนวนงวด)  ถ้า c_preriod ไม่มีค่า จะใช้ 1 เพื่อป้องกันหารด้วยศูนย์
+            return sum + perMonth;  // บวกยอดรายเดือนของแต่ละรายการเข้ากับผลรวม
+        }, 0);
 
     const getInstallment = async () => {
         const response = await axios.get(`${config.API_URL}/bg_installment`);
         setItems(response.data)
     }
 
+    const getCountAct = async () => {
+        axios.get(`${config.API_URL}/bg_installment_contAct`)
+            .then((response) => {
+                setCountAct(response.data);
+            })
+    }
+
     useEffect(() => {
         getInstallment();
+        getCountAct();
     }, []);
 
     const addItems = (e) => {
@@ -55,16 +80,16 @@ function Installment_Credit_Card() {
             f_amount: f_amount,
             c_preriod: c_preriod,
             d_doc_date: d_doc_date,
-            active: active
+            i_active: i_active
         }).then((response) => {
-            const newItem = response.data.bg_installment_id;
+            const newId = response.data.bg_installment_id;
             setItems([{
-                bg_installment_id: newItem,
+                bg_installment_id: newId,
                 c_name: c_name,
                 f_amount: f_amount,
                 c_preriod: c_preriod,
                 d_doc_date: d_doc_date,
-                active: active
+                i_active: i_active
             }, ...items]);
 
         })
@@ -72,22 +97,6 @@ function Installment_Credit_Card() {
         setF_amount('');
         setC_Preriod(3);
     }
-
-    const handleEditClick = (item) => {
-        setEditData({
-            active: item.active,
-        });
-        setShowEdit(true);
-    };
-
-    const handleEditChange = (e) => {
-        const { name, value } = e.target;
-        setEditData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
-
 
     const handleDeleteClick = (bg_installment_id) => {
         setDeleteId(bg_installment_id);
@@ -100,6 +109,7 @@ function Installment_Credit_Card() {
                 setItems(items.filter((val) => val.bg_installment_id !== deleteId));
                 setShowConfirm(false);
                 setDeleteId(null);
+                getCountAct();
             })
     };
 
@@ -108,22 +118,28 @@ function Installment_Credit_Card() {
         setDeleteId(null);
     };
 
+    const handleEditClick = (item) => {
+        setEditData({
+            bg_installment_id: item.bg_installment_id,
+            i_active: item.i_active,
+        });
+        setShowEdit(true);
+    };
     const handleCancelEdit = () => {
         setShowEdit(false);
     };
 
     const handleSaveEdit = () => {
-        axios.put(`${config.API_URL}/bg_credit_update/${editData.bg_credit_id}`, {
-            c_name: editData.c_name,
-            f_amount: editData.f_amount,
-            d_doc_date: editData.d_doc_date
+        axios.put(`${config.API_URL}/bg_installment_update/${editData.bg_installment_id}`, {
+            i_active: editData.i_active
         }).then(() => {
-            setOrderCreditCard(OrderCreditCard.map(item =>
-                item.bg_credit_id === editData.bg_credit_id
+            setItems(items.map(item =>
+                item.bg_installment_id === editData.bg_installment_id
                     ? { ...item, ...editData }
                     : item
             ));
             setShowEdit(false);
+            getCountAct();
         });
     };
 
@@ -201,16 +217,36 @@ function Installment_Credit_Card() {
                                     className='border border-gray-300 rounded w-50 p-2 mr-5 focus:outline-none h-7' />
                                 <input type="checkbox"
                                     value={1}
-                                    checked={active === 1}
-                                    onChange={() => setActive(1)}
+                                    checked={i_active === 1}
+                                    onChange={() => setI_active(1)}
                                     className='mr-2'
                                     disabled />
-                                <label>Active</label>
+                                <label>เริ่มการผ่อนชำระ</label>
                             </div>
                             <div className='mr-15 mt-1 p-2'>
                                 <button className='bg-gray-600 text-white w-36 px-4 py-2 rounded hover:bg-gray-500 h-8 flex justify-center items-center' onClick={addItems}>
                                     เพิ่มรายการใหม่
                                 </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='w-1/2'>
+                        <p>สรุปยอดการผ่อนชำระ</p>
+                        <div className='border border-solid border-gray-300 p-2 pl-4 h-32'>
+                            <div className='flex items-center'>
+                                <p className='mr-2'>จำนวนรายการผ่อน</p>
+                                {countAct.map((val, idx) => (
+                                    <p key={idx} className='mr-2 font-bold'>{Number(val.CountAct).toLocaleString()}</p>
+                                ))}รายการ
+                            </div>
+                            <div className='flex items-center mt-2'>
+                                <p className='mr-2'>ยอดรวม ต่อเดือน</p>
+                                <p className='mr-2 font-bold text-blue-500'>
+                                    {sumActMonth.toLocaleString(undefined, {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    })}
+                                </p>บาท
                             </div>
                         </div>
                     </div>
@@ -230,7 +266,7 @@ function Installment_Credit_Card() {
                         </thead>
                         <tbody className='border border-2'>
                             {items.length > 0 ? (
-                                items.map((val) => (
+                                currentItems.map((val) => (
                                     <tr key={val.bg_installment_id} className='hover:bg-gray-200'>
                                         <td className='w-[40rem]'><div className='pl-10'>{val.c_name}</div></td>
                                         <td><div className='text-right pr-5'>{Number(val.f_amount).toLocaleString(undefined, {
@@ -239,12 +275,12 @@ function Installment_Credit_Card() {
                                         })} บาท</div></td>
                                         <td><div className='text-center'>{val.c_preriod}</div></td>
                                         <td>
-                                            <div className={`text-center ${val.active === 0 ? 'text-gray-300' : 'text-green-600'}`}>
-                                                {val.active === 0 ? 'ผ่อนครบแล้ว' : 'อยู่ในช่วงผ่อนชำระ'}
+                                            <div className={`text-center ${val.i_active === 0 ? 'text-gray-500' : 'text-green-600'}`}>
+                                                {val.i_active === 0 ? 'ผ่อนครบแล้ว' : 'อยู่ในช่วงผ่อนชำระ'}
                                             </div>
                                         </td>
                                         <td>
-                                            <div className='text-right pr-5'>
+                                            <div className={`text-right ${val.i_active === 0 ? 'text-gray-500' : 'text-blue-600'}`}>
                                                 {val.c_preriod && Number(val.c_preriod) > 0
                                                     ? Number(val.f_amount / val.c_preriod).toLocaleString(undefined, {
                                                         minimumFractionDigits: 2,
@@ -252,7 +288,7 @@ function Installment_Credit_Card() {
                                                     }) : '-'} บาท
                                             </div>
                                         </td>
-                                        <td><div className='text-right pr-5'>{date.formatThaiDate(val.d_doc_date)}</div></td>
+                                        <td><div className='text-right'>{date.formatThaiDate(val.d_doc_date)}</div></td>
                                         <td>
                                             <div className='flex justify-center '>
                                                 <button className=' text-white px-4 py-2 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
@@ -273,6 +309,11 @@ function Installment_Credit_Card() {
                         </tbody>
                     </table>
                 </div>
+                <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600 text-sm">
+                    <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}> <FaAngleLeft className='w-[25px] h-[25px]' /></button>
+                    <span>หน้า {currentPage} / {totalPages}</span>
+                    <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} > <FaAngleRight className='w-[25px] h-[25px]' /></button>
+                </div>
                 {showConfirm && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
                         <div className="bg-white rounded-lg shadow-lg p-8 w-96">
@@ -291,8 +332,14 @@ function Installment_Credit_Card() {
                             <div className="flex flex-col gap-4">
                                 <div className='text-center'>
                                     <FormControlLabel
-                                        control={<Android12Switch />}
-                                        label="ปิดการผ่อนชำระ"
+                                        control={<Android12Switch
+                                            checked={editData.i_active === 0}
+                                            onChange={(_, checked) => setEditData(ed => ({
+                                                ...ed,
+                                                i_active: checked ? 0 : 1 // checked=ปิด=0, ไม่checked=เปิด=1
+                                            }))}
+                                        />}
+                                        label={editData.i_active === 0 ? "ปิดสถานะการผ่อนชำระ" : "เปิดสถานะการผ่อนชำระ"}
                                     />
                                 </div>
                             </div>
@@ -310,7 +357,6 @@ function Installment_Credit_Card() {
                         </div>
                     </div>
                 )}
-
             </div>
         </div>
     )

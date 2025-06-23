@@ -159,14 +159,37 @@ app.get('/bg_installment', (req, res) => {
     });
 });
 
+app.get('/bg_installment_contAct', (req, res) => {
+    db.query('SELECT count(bg_installment_id) as CountAct  FROM bg_installment where i_active = 1', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
 app.post('/bg_installment_create', (req, res) => {
-    const { c_name, f_amount, c_preriod, d_doc_date, active } = req.body;
-    db.query('INSERT INTO bg_installment (c_name, f_amount, c_preriod , d_doc_date , active) VALUES (?, ?, ?, ? ,?)',
-        [c_name, f_amount, c_preriod, d_doc_date, active], (err, results) => {
+    const { c_name, f_amount, c_preriod, d_doc_date, i_active } = req.body;
+    db.query('INSERT INTO bg_installment (c_name, f_amount, c_preriod , d_doc_date , i_active) VALUES (?, ?, ?, ? ,?)',
+        [c_name, f_amount, c_preriod, d_doc_date, i_active], (err, results) => {
             if (err) {
                 console.log(err);
             } else {
                 res.json({ bg_installment_id: results.insertId });
+            }
+        });
+});
+
+app.put('/bg_installment_update/:bg_installment_id', (req, res) => {
+    const bg_installment_id = req.params.bg_installment_id;
+    const { i_active } = req.body;
+    db.query('UPDATE bg_installment SET i_active = ? WHERE bg_installment_id = ?',
+        [i_active, bg_installment_id], (err, results) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({ success: true });
             }
         });
 });

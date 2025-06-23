@@ -68,7 +68,7 @@ function Drawer() {
                             <div className="ml-4 mt-1 flex flex-col space-y-1">
                                 <Link to="/Rep_Amount_Receive" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายงานแสดงภาพรวมการแยกจำนวนเงินที่ได้รับมา</Link>
                                 <Link to="/Rep_Record_Daily" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายงานสรุปใช้จ่ายประจำวัน</Link>
-                                <Link to="/Rep_Use_Credit_Card" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายการการใช้บัตรเคดิต</Link>
+                                <Link to="/Rep_Use_Credit_Card" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายการสรุปการใช้บัตรเคดิต</Link>
                                 <Link to="/Rep_Installment_Credit_Card" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายงานการผ่อนชำระบัตรเคดิต</Link>
                                 <Link to="/Rep_Next_Expenses_List" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">รายงาน list ค่าใช้จ่ายเดือนถัดไป</Link>
                             </div>

@@ -6,7 +6,7 @@ function Rep_Use_Credit_Card() {
         <div>
             <Drawer />
             <div className="container mx-auto text-center w-[60rem] h-screen border border-2 border-solid border-gray-300 ">
-                <h1>รายการการใช้บัตรเคดิต</h1>
+                <h1>รายการสรุปการใช้บัตรเคดิต</h1>
             </div>
         </div>
     )
