@@ -13,7 +13,7 @@ function Use_Credit_Card() {
     const [f_amount, setF_amount] = useState("");
     const [d_doc_date, setD_doc_date] = useState(() => {
         const today = new Date();
-        return today.toISOString().split('T')[0]; 
+        return today.toISOString().split('T')[0];
     });
     const [showConfirm, setShowConfirm] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
@@ -143,69 +143,94 @@ function Use_Credit_Card() {
         <div>
             <Drawer />
             <div className="w-full font-NotoSansThai text-gray-600 text-sm">
-                <h1 className='flex items-center text-xl pl-10 text-white h-14 text-left bg-gray-400'><FaCcVisa className='mr-3 w-[20px] h-[20px]' />บันทึกการใช้บัตรเครดิต</h1>
-                <form className='my-2 px-10 py-5 bg-gray-100 flex sm:flex-col md:flex-col lg:flex-row h-24'>
-                    <div className='flex'>
-                        <div className='flex flex-col justify-start my-2'>
-                            <label className='text-gray-600 text-left'>รายการจ่าย</label>
-                            <input type="text" value={c_name} onChange={(e) => { setC_name(e.target.value) }} className='border border-gray-300 rounded w-96 p-2 mr-5 focus:outline-none h-8' placeholder='กรุณากรอกข้อมูลรายการจ่าย' />
-                        </div>
-                        <div className='flex flex-col justify-start my-2'>
-                            <label className='text-gray-600 text-left'>จำนวนเงิน</label>
-                            <input type="number" value={f_amount} onChange={(e) => { setF_amount(e.target.value) }} className='border border-gray-300 rounded w-28 p-2 mr-5 focus:outline-none text-right h-8' placeholder='0' />
-                        </div>
-                    </div>
-                    <div className='flex'>
-                        <div className='flex flex-col justify-start my-2'>
-                            <label className='text-gray-600 text-left'>วันที่ใช้จ่าย</label>
-                            <input type="date"
-                                value={d_doc_date}
-                                onChange={(e) => { setD_doc_date(e.target.value) }}
-                                className='border border-gray-300 rounded w-60 p-2 mr-5 focus:outline-none h-8'
-                            />
-                        </div>
-                        <div className='flex items-end'>
-                            <button className='bg-gray-600 text-white w-52 h-8 rounded hover:bg-gray-500  flex justify-center items-center' onClick={addOrderCreditCard}>บันทึกรายการ</button>
+                <h1 className='flex items-center text-lg pl-10 text-white h-14 text-left bg-gray-400'>
+                    <FaCcVisa className='mr-3 w-[20px] h-[20px]' />บันทึกการใช้บัตรเครดิต</h1>
+                <form className='my-2 px-10 py-5 bg-gray-100 flex sm:flex-col md:flex-col lg:flex-row h-50'>
+                    <div className='w-1/2'>
+                        <label>เพิ่มรายการ</label>
+                        <div className='border border-solid border-gray-300 p-2 mr-10'>
+                            <div className='flex'>
+                                <div className='flex flex-col justify-start my-2'>
+                                    <label className='text-gray-600 text-left'>รายการจ่าย</label>
+                                    <input type="text"
+                                        value={c_name}
+                                        onChange={(e) => { setC_name(e.target.value) }}
+                                        className='border border-gray-300 rounded w-96 p-2 mr-5 focus:outline-none h-8'
+                                        placeholder='กรุณากรอกข้อมูลรายการจ่าย' />
+                                </div>
+                                <div className='flex flex-col justify-start my-2'>
+                                    <label className='text-gray-600 text-left'>จำนวนเงิน</label>
+                                    <input type="number"
+                                        value={f_amount}
+                                        onChange={(e) => { setF_amount(e.target.value) }}
+                                        className='border border-gray-300 rounded w-28 p-2 mr-5 focus:outline-none text-right h-8'
+                                        placeholder='0' />
+                                </div>
+                            </div>
+                            <div className='flex items-center'>
+                                <div className='flex flex-col justify-start my-2'>
+                                    <label className='text-gray-600 text-left'>วันที่ใช้จ่าย</label>
+                                    <input type="date"
+                                        value={d_doc_date}
+                                        onChange={(e) => { setD_doc_date(e.target.value) }}
+                                        className='border border-gray-300 rounded w-60 p-2 mr-5 focus:outline-none h-8'
+                                    />
+                                </div>
+                                <div className='mt-5'>
+                                    <button className='bg-gray-600 text-white w-36 px-4 py-2 rounded hover:bg-gray-500 flex justify-center items-center text-sm' onClick={addOrderCreditCard}>เพิ่มรายการใหม่</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
-                <div className="fixed-table-body w-[90rem] mx-auto">
-                    <table className='w-full'>
-                        <thead>
-                            <tr className='bg-gray-400 h-12 text-lg text-white'>
-                                <th className='w-[50rem]'>รายการจ่าย</th>
-                                <th>จำนวนเงิน</th>
-                                <th>วันที่ใช้จ่าย</th>
-                                <th>-</th>
-                            </tr>
-                        </thead>
-                        <tbody className='border border-2'>
-                            {OrderCreditCard && OrderCreditCard.length > 0 ? (
-                                currentItems.map((val) => (
+                <div className='mx-10'>
+                    <label>รายการใช้บัตรเครดิต</label>
+                </div>
+                <table className='fixed-table-body w-[90rem] mx-auto border border-solid border-gray-300 '>
+                    <thead>
+                        <tr className='bg-gray-200'>
+                            <th className='border border-gray-300 p-2 w-20'>ลำดับ</th>
+                            <th className='border border-gray-300 p-2'>รายการจ่าย</th>
+                            <th className='border border-gray-300 p-2'>จำนวนเงิน</th>
+                            <th className='border border-gray-300 p-2'>วันที่ใช้จ่าย</th>
+                            <th className='border border-gray-300 p-2'>-</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {OrderCreditCard && OrderCreditCard.length > 0 ? (
+                            currentItems.map((val, idx) => {
+                                const order = indexOfFirstItem + idx + 1;
+                                return (
                                     <tr key={val.bg_credit_id} className='hover:bg-gray-200'>
+                                        <td className='text-center w-20'>{order}</td>
                                         <td className='text-left px-5 pl-10 w-[200px] md:w-[200px] lg:w-[700px]'><p className='text-gray-600'>{val.c_name}</p></td>
                                         <td><p className='text-gray-600 text-right'>{Number(val.f_amount).toLocaleString()} บาท</p></td>
                                         <td><p className='text-gray-600 text-right'>{date.formatThaiDate(val.d_doc_date)}</p></td>
                                         <td>
                                             <div className='flex justify-center'>
-                                                <button className=' text-white px-4 py-2 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
-                                                    onClick={() => handleEditClick(val)}
-                                                ><FaEdit /></button>
-                                                <button className='text-white px-4 py-2 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.bg_credit_id) }}><MdDelete /></button>
+                                                <button className=' text-white px-4 py-1 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
+                                                    onClick={() => handleEditClick(val)}>
+                                                    <FaEdit />
+                                                </button>
+                                                <button className='bg-red-500 text-white px-4 py-1 my-1 rounded hover:bg-red-400'
+                                                    onClick={() => { handleDeleteClick(val.bg_credit_id) }}>
+                                                    <MdDelete />
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={4} className="text-center text-gray-500 py-4">
-                                        ไม่พบข้อมูลรายการ
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                                )
+                            })
+                        ) : (
+                            <tr>
+                                <td colSpan={4} className="text-center text-gray-500 py-4">
+                                    ไม่พบข้อมูลรายการ
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+
                 <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600 text-sm">
                     <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}> <FaAngleLeft className='w-[25px] h-[25px]' /></button>
                     <span>หน้า {currentPage} / {totalPages}</span>

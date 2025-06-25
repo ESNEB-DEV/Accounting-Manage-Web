@@ -251,29 +251,43 @@ function Installment_Credit_Card() {
                         </div>
                     </div>
                 </form>
-                <div className="fixed-table-body w-[90rem] mx-auto">
-                    <table className='w-full'>
-                        <thead>
-                            <tr className='bg-gray-400 h-12 text-lg text-white text-base'>
-                                <th className='w-[40rem]'>รายการ</th>
-                                <th>จำนวนเงิน</th>
-                                <th>จำนวนงวด</th>
-                                <th>สถานะการผ่อน</th>
-                                <th>งวดละ/บาท</th>
-                                <th>วันที่</th>
-                                <th>-</th>
-                            </tr>
-                        </thead>
-                        <tbody className='border border-2'>
-                            {items.length > 0 ? (
-                                currentItems.map((val) => (
+                <div className='mx-10'>
+                    <label>รายการผ่อนชำระบัตรเคดิต</label>
+                </div>
+                <table className='fixed-table-body w-[90rem] mx-auto border border-solid border-gray-300 '>
+                    <thead>
+                        <tr className='bg-gray-200'>
+                            <th className='border border-gray-300 p-2 w-20'>ลำดับ</th>
+                            <th className='border border-gray-300 p-2'>รายการ</th>
+                            <th className='border border-gray-300 p-2'>จำนวนเงิน</th>
+                            <th className='border border-gray-300 p-2'>จำนวนงวด</th>
+                            <th className='border border-gray-300 p-2'>สถานะการผ่อน</th>
+                            <th className='border border-gray-300 p-2'>งวดละ/บาท</th>
+                            <th className='border border-gray-300 p-2'>วันที่</th>
+                            <th className='border border-gray-300 p-2'>-</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {items.length > 0 ? (
+                            currentItems.map((val, idx) => {
+
+                                const order = indexOfFirstItem + idx + 1;
+
+                                return (
                                     <tr key={val.bg_installment_id} className='hover:bg-gray-200'>
-                                        <td className='w-[40rem]'><div className='pl-10'>{val.c_name}</div></td>
+                                        <td className='text-center w-20'>{order}</td>
+                                        <td className='w-[190px]'>
+                                            <div>{val.c_name}
+                                            </div>
+                                        </td>
                                         <td><div className='text-right pr-5'>{Number(val.f_amount).toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2
                                         })} บาท</div></td>
-                                        <td><div className='text-center'>{val.c_preriod}</div></td>
+                                        <td>
+                                            <div className='text-center'>{val.c_preriod}
+                                            </div>
+                                        </td>
                                         <td>
                                             <div className={`text-center ${val.i_active === 0 ? 'text-gray-500' : 'text-green-600'}`}>
                                                 {val.i_active === 0 ? 'ผ่อนครบแล้ว' : 'อยู่ในช่วงผ่อนชำระ'}
@@ -291,24 +305,24 @@ function Installment_Credit_Card() {
                                         <td><div className='text-right'>{date.formatThaiDate(val.d_doc_date)}</div></td>
                                         <td>
                                             <div className='flex justify-center '>
-                                                <button className=' text-white px-4 py-2 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
+                                                <button className=' text-white px-4 py-1 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
                                                     onClick={() => handleEditClick(val)}
                                                 ><FaEdit /></button>
-                                                <button className='text-white px-4 py-2 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.bg_installment_id) }}><MdDelete /></button>
+                                                <button className='text-white px-4 py-1 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.bg_installment_id) }}><MdDelete /></button>
                                             </div>
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={7} className="text-center text-gray-500 py-4">
-                                        ไม่พบข้อมูลรายการ
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                                )
+                            })
+                        ) : (
+                            <tr>
+                                <td colSpan={7} className="text-center text-gray-500 py-4">
+                                    ไม่พบข้อมูลรายการ
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
                 <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600 text-sm">
                     <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}> <FaAngleLeft className='w-[25px] h-[25px]' /></button>
                     <span>หน้า {currentPage} / {totalPages}</span>

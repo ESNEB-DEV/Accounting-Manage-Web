@@ -200,77 +200,89 @@ function Record_Daily() {
                         </div>
                     </div>
                 </form>
-                <table className='w-[90rem] mx-auto border border-solid border-gray-300 text-sm '>
-                    <thead>
-                        <tr className='bg-gray-400 h-12 text-lg text-white'>
-                            <th className='w-50'>รายรับ</th>
-                            <th className='w-50'>รายจ่าย</th>
-                            <th className='w-50'>ยอดคงเหลือ</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            {sumrecieve.map((val) => (
-                                <td key="recieve"><p className='text-green-600 text-center text-lg my-2 font-bold border-r-2 border-solid border-gray-200'>{Number(val.SumRecieve).toLocaleString()} บาท</p></td>
-                            ))}
-                            {sumpay.map((val) => (
-                                <td key="pay"><p className='text-red-600 text-center text-lg my-2 font-bold border-r-2 border-solid border-gray-200'>{Number(val.SumPay).toLocaleString()} บาท</p></td>
-                            ))}
-                            <td key="balance">
-                                {
-                                    (() => {
-                                        const totalRecieve = sumrecieve[0]?.SumRecieve || 0;
-                                        const totalPay = sumpay[0]?.SumPay || 0;
-                                        const balance = totalRecieve - totalPay;
+                <div className='mx-10'>
+                    <div className='w-full mt-5'>
+                        <label>สรุปยอดเงิน</label>
+                    </div>
+                    <table className='w-full border-collapse border border-gray-300 mt-2'>
+                        <thead>
+                            <tr className='bg-gray-200'>
+                                <th className='border border-gray-300 p-2'>รายรับ</th>
+                                <th className='border border-gray-300 p-2'>รายจ่าย</th>
+                                <th className='border border-gray-300 p-2'>ยอดคงเหลือ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {sumrecieve.map((val) => (
+                                    <td key="recieve"><p className='text-green-600 text-center text-lg my-2 font-bold border-r-2 border-solid border-gray-200'>{Number(val.SumRecieve).toLocaleString()} บาท</p></td>
+                                ))}
+                                {sumpay.map((val) => (
+                                    <td key="pay"><p className='text-red-600 text-center text-lg my-2 font-bold border-r-2 border-solid border-gray-200'>{Number(val.SumPay).toLocaleString()} บาท</p></td>
+                                ))}
+                                <td key="balance">
+                                    {
+                                        (() => {
+                                            const totalRecieve = sumrecieve[0]?.SumRecieve || 0;
+                                            const totalPay = sumpay[0]?.SumPay || 0;
+                                            const balance = totalRecieve - totalPay;
 
-                                        const balanceColor = balance < 0 ? 'text-red-600' : 'text-blue-600';
+                                            const balanceColor = balance < 0 ? 'text-red-600' : 'text-blue-600';
 
-                                        return (
-                                            <p className={`${balanceColor} text-center text-lg my-2 font-bold`}>
-                                                {Number(balance).toLocaleString()} บาท
-                                            </p>
-                                        );
-                                    })()
-                                }
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                            return (
+                                                <p className={`${balanceColor} text-center text-lg my-2 font-bold`}>
+                                                    {Number(balance).toLocaleString()} บาท
+                                                </p>
+                                            );
+                                        })()
+                                    }
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <br />
+                <div className='mx-10'>
+                    <label>รายการใช้จ่ายประจำวัน</label>
+                </div>
                 <table className='fixed-table-body w-[90rem] mx-auto border border-solid border-gray-300 '>
                     <thead>
-                        <tr className='bg-gray-400 h-12 text-lg text-white'>
-                            <th className='w-[45rem]'>รายการ</th>
-                            <th>รับเงิน</th>
-                            <th>จ่ายเงิน</th>
-                            <th>วันที่</th>
-                            <th>-</th>
+                        <tr className='bg-gray-200'>
+                            <th className='border border-gray-300 p-2 w-20'>ลำดับ</th>
+                            <th className='border border-gray-300 p-2'>รายการ</th>
+                            <th className='border border-gray-300 p-2'>รับเงิน</th>
+                            <th className='border border-gray-300 p-2'>จ่ายเงิน</th>
+                            <th className='border border-gray-300 p-2'>วันที่</th>
+                            <th className='border border-gray-300 p-2'>-</th>
                         </tr>
                     </thead>
                     <tbody>
                         {items.length > 0 ? (
-                            currentItems.map((val) => {
+                            currentItems.map((val, idx) => {
                                 const rec = recieve.find(re => re.bg_daily_id === val.bg_daily_id);
                                 const pays = pay.find(payItem => payItem.bg_daily_id === val.bg_daily_id);
 
+                                const order = indexOfFirstItem + idx + 1;
+
                                 return (
                                     <tr key={val.bg_daily_id} className='hover:bg-gray-200'>
-                                        <td className='text-left px-10 w-[200px] md:w-[200px] lg:w-[700px]'>
+                                        <td className='text-center w-20'>{order}</td>
+                                        <td className='text-left pl-2 w-[270px]'>
                                             <p className='text-gray-600'>{val.c_name}</p>
                                         </td>
                                         <td>
-                                            <p className='text-green-600 text-right pr-10'>
+                                            <p className='text-green-600 text-right pr-5'>
                                                 {rec ? Number(rec.f_amount).toLocaleString() + ' บาท' : '-'}
                                             </p>
                                         </td>
                                         <td>
-                                            <p className='text-red-600 text-right pr-10'>
+                                            <p className='text-red-600 text-right pr-5'>
                                                 {pays ? Number(pays.f_amount).toLocaleString() + ' บาท' : '-'}
                                             </p>
                                         </td>
-                                        <td><p className='text-gray-600 text-right'>{date.formatThaiDate(val.t_create_dt)}</p></td>
+                                        <td><p className='text-gray-600 text-right pr-5'>{date.formatThaiDate(val.t_create_dt)}</p></td>
                                         <td className='text-center'>
-                                            <button className='text-white px-4 py-2 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.bg_daily_id) }}><MdDelete /></button>
+                                            <button className='bg-red-500 text-white px-4 py-1 my-1 rounded hover:bg-red-400' onClick={() => { handleDeleteClick(val.bg_daily_id) }}><MdDelete /></button>
                                         </td>
                                     </tr>
                                 );

@@ -4,15 +4,12 @@ import './index.css'
 import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 // Commponent Pages
-import Amount_Receive from './pages/Amount_Receive.jsx'
-import Amount_Use from './pages/Amount_Use.jsx'
-import Check_List from './pages/Check_List.jsx'
-import Record_Act_Est from './pages/Record_Act_Est.jsx'
+import Expenses from './pages/Expenses.jsx'
+import Record_Estimate from './pages/Record_Estimate.jsx'
 import Record_Daily from './pages/Record_Daily.jsx'
 import Use_Credit_Card from './pages/Use_Credit_Card.jsx'
 import Installment_Credit_Card from './pages/Installment_Credit_Card.jsx'
 // Commponent Report
-import Rep_Amount_Receive from '../src/pages/reports/Rep_Amount_Receive.jsx'
 import Rep_Installment_Credit_Card from '../src/pages/reports/Rep_Installment_Credit_Card.jsx'
 import Rep_Next_Expenses_List from '../src/pages/reports/Rep_Next_Expenses_List.jsx'
 import Rep_Record_Daily from '../src/pages/reports/Rep_Record_Daily.jsx'
@@ -29,24 +26,14 @@ const router = createBrowserRouter([
   },
   //Pagess
   {
-    // บันทึกแยกจำนวนเงินที่ได้รับมา
-    path: 'Amount_Receive',
-    element: <Amount_Receive />,
-  },
-  {
-    // กำหนดจำนวนเงินที่ต้องใช้
-    path: 'Amount_Use',
-    element: <Amount_Use />,
-  },
-  {
     // Check list ค่าใช้จ่ายประจำเดือน
-    path: 'Check_List',
-    element: <Check_List />,
+    path: 'Expenses',
+    element: <Expenses />,
   },
   {
     // บันทึกประมาณการ / ค่าใช้จ่ายจริง
-    path: 'Record_Act_Est',
-    element: <Record_Act_Est />,
+    path: 'Record_Estimate',
+    element: <Record_Estimate />,
   },
   {
     // บันทึกรายการค่าใช้จ่ายประจำวัน
@@ -65,11 +52,6 @@ const router = createBrowserRouter([
   },
 
   //Report
-  {
-    // รายงานแสดงภาพรวมการแยกจำนวนเงินที่ได้รับมา / เดือน
-    path: 'Rep_Amount_Receive',
-    element: <Rep_Amount_Receive />,
-  },
   {
     // รายงานการผ่อนชำระบัตรเคดิต
     path: 'Rep_Installment_Credit_Card',
