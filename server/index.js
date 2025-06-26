@@ -146,6 +146,7 @@ app.delete('/bg_daily_delete/:bg_daily_id', (req, res) => {
         }
     });
 });
+// End บันทึกรายการรับ-จ่ายเงิน
 
 
 //บันทึกรายการผ่อนชำระบัตรเคดิต
@@ -203,6 +204,64 @@ app.delete('/bg_installment_delete/:bg_installment_id', (req, res) => {
             res.send(results);
         }
     });
+});
+// End บันทึกรายการผ่อนชำระบัตรเคดิต
+
+//  บันทึกรายการประมาณการค่าใช้จ่าย
+app.get('/bg_estimate', (req, res) => {
+    db.query('SELECT * FROM bg_estimate', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
+app.get('/bg_estimate_sum', (req, res) => {
+    db.query('SELECT sum(f_amount) as SumAmount FROM bg_estimate', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
+app.post('/bg_estimate_create', (req, res) => {
+    const { c_name, f_amount } = req.body;
+    db.query('INSERT INTO bg_estimate (c_name, f_amount) VALUES (?, ?)',
+        [c_name, f_amount], (err, results) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({ bg_estimate_id: results.insertId });
+            }
+        });
+});
+
+app.delete('/bg_estimate_delete/:bg_estimate_id', (req, res) => {
+    const bg_estimate_id = req.params.bg_estimate_id;
+    db.query('DELETE FROM bg_estimate WHERE bg_estimate_id = ?', bg_estimate_id, (err, results) => {
+        if (err) {
+            console.log(bg_estimate_id);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
+app.put('/bg_estimate_update/:bg_estimate_id', (req, res) => {
+    const bg_estimate_id = req.params.bg_estimate_id;
+    const { c_name, f_amount } = req.body;
+    db.query('UPDATE bg_estimate SET c_name = ? , f_amount = ? WHERE bg_estimate_id = ?',
+        [c_name, f_amount, bg_estimate_id], (err, results) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({ success: true });
+            }
+        });
 });
 
 app.listen(3001, () => {

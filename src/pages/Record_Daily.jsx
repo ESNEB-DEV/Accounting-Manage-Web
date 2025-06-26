@@ -166,8 +166,8 @@ function Record_Daily() {
                                 <input type="number"
                                     value={f_amount}
                                     onChange={(e) => { setF_amount(e.target.value) }}
-                                    className='border border-gray-300 rounded w-48 p-2 focus:outline-none h-8'
-                                    placeholder='กรุณากรอกจำนวนเงิน' />
+                                    className='border border-gray-300 rounded text-right w-20 p-2 mr-2 focus:outline-none h-7'
+                                    placeholder='0' />
                                 <label className='ml-5'>รายการรับ/จ่าย : </label>
                                 <input type="radio"
                                     id="receive"
