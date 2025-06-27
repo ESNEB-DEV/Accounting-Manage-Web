@@ -85,7 +85,7 @@ function Installment_Credit_Card() {
                 d_doc_date: d_doc_date,
                 i_active: i_active
             }, ...items]);
-            
+
             getSumItems();
         })
         setC_name('');
@@ -273,7 +273,7 @@ function Installment_Credit_Card() {
                                 return (
                                     <tr key={val.bg_installment_id} className='hover:bg-gray-200'>
                                         <td className='text-center w-20'>{order}</td>
-                                        <td className='w-[190px]'>
+                                        <td className='w-[190px] pl-2'>
                                             <div>{val.c_name}
                                             </div>
                                         </td>
