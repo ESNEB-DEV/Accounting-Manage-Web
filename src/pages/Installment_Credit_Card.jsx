@@ -85,7 +85,8 @@ function Installment_Credit_Card() {
                 d_doc_date: d_doc_date,
                 i_active: i_active
             }, ...items]);
-
+            
+            getSumItems();
         })
         setC_name('');
         setF_amount('');

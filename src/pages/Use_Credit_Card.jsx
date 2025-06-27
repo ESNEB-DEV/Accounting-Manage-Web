@@ -29,6 +29,17 @@ function Use_Credit_Card() {
     const [amountEstimate, setAmountEstimate] = useState([]);
     const [amountInstallment, setAmountInstallment] = useState([]);
 
+    const { start, end } = date.getCurrentBillingPeriod();
+    //filter และ sum 
+    const usedAmount = OrderCreditCard
+        .filter(item => item.d_doc_date >= start && item.d_doc_date <= end)
+        .reduce((sum, item) => sum + Number(item.f_amount), 0);
+
+    const totalEstimate = amountEstimate.reduce((sum, val) => sum + Number(val.AmountEstimate), 0);
+    const totalInstallment = amountInstallment.reduce((sum, val) => sum + Number(val.sumPerMonth), 0)
+    const amountBalance = totalEstimate - totalInstallment - usedAmount;
+    const sumall = totalInstallment + usedAmount;
+
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -202,10 +213,11 @@ function Use_Credit_Card() {
                         <p>แสดงยอดใช้จ่ายบัตรเครดิต </p>
                         <div className='border border-solid border-gray-300 p-2 pl-4 '>
                             <div>
-                                <h3 className='mb-1'>ยอดเงินประมาณการ :
+                                <h3 className='mb-1 font-bold'>รอบการใช้จ่าย : {date.formatThaiDate(start)} - {date.formatThaiDate(end)}</h3>
+                                <h3 className='mb-1 ml-5'>ยอดเงินประมาณการ :
                                     {amountEstimate.map((val, idx) => {
                                         return (
-                                            <span key={idx} className='text-gray-600 text-right ml-2'>
+                                            <span key={idx} className='text-blue-600 text-right ml-2'>
                                                 {Number(val.AmountEstimate).toLocaleString(undefined, {
                                                     minimumFractionDigits: 2,
                                                     maximumFractionDigits: 2
@@ -214,10 +226,10 @@ function Use_Credit_Card() {
                                         )
                                     })}
                                 </h3>
-                                <h3 className='mb-1'>ผ่อนสินค้า :
+                                <h3 className='mb-1 ml-5'>ยอดผ่อนสินค้า :
                                     {amountInstallment.map((val, idx) => {
                                         return (
-                                            <span key={idx} className='text-gray-600 text-right ml-2'>
+                                            <span key={idx} className='text-blue-600 text-right ml-2'>
                                                 {Number(val.sumPerMonth).toLocaleString(undefined, {
                                                     minimumFractionDigits: 2,
                                                     maximumFractionDigits: 2
@@ -226,8 +238,30 @@ function Use_Credit_Card() {
                                         )
                                     })}
                                 </h3>
-                                <h3 className='mb-1'>ยอดเงินใช้ไปแล้ว :</h3>
-                                <h3 className='mb-1'>ยอดเงินคงเหลือใช้ :</h3>
+                                <h3 className='mb-1 ml-5'>ยอดใช้จ่ายบัตรเครดิต :
+                                    <span className='text-blue-600 text-right ml-2'>
+                                        {usedAmount.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })} บาท
+                                    </span>
+                                </h3>
+                                <h3 className='mb-1 ml-5'>ยอดเงินคงเหลือใช้ :
+                                    <span className={`text-${amountBalance < 0 ? 'red' : 'green'}-600 text-right ml-2`}>
+                                        {amountBalance.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })} บาท
+                                    </span>
+                                </h3>
+                                <h3 className='mb-1 ml-5 mt-2 font-bold'>รวม :
+                                    <span className={`text-${sumall <= totalEstimate ? 'green' : 'red'}-600 text-right ml-2`}>
+                                        {sumall.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })} บาท
+                                    </span>
+                                </h3>
                             </div>
                         </div>
                     </div>

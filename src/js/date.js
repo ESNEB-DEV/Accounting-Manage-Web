@@ -11,9 +11,13 @@ function CurrentDateDisplay() {
 
 function formatThaiDate(dateString) {
     if (!dateString) return "";
+    // const months = [
+    //     "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
+    //     "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+    // ];
     const months = [
-        "มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน",
-        "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"
+        "ม.ค.", "ก.พ.", "ม.ค.", "เม.ย.", "พ.ค.", "มิ.ย.",
+        "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."
     ];
     const date = new Date(dateString);
     const day = date.getDate();
@@ -31,9 +35,31 @@ function formatInputDate(dateString) {
     return `${year}-${month}-${day}`;
 }
 
+function getCurrentBillingPeriod(today = new Date()) {
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const date = today.getDate();
+
+    let start, end;
+    if (date >= 26) {
+        // รอบเดือนถัดไป
+        start = new Date(year, month, 27);
+        end = new Date(year, month + 1, 26);
+    } else {
+        // รอบนี้เดือนนี้
+        start = new Date(year, month - 1, 26);
+        end = new Date(year, month, 25);
+    }
+    // คืนค่าเป็น yyyy-mm-dd
+    return {
+        start: start.toISOString().split('T')[0],
+        end: end.toISOString().split('T')[0]
+    };
+}
 
 export default {
     CurrentDateDisplay,
     formatThaiDate,
-    formatInputDate
+    formatInputDate,
+    getCurrentBillingPeriod
 };
