@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Drawer from '../components/Drawer.jsx'
-import config from '../config.js';
-import date from '../date.js';
+import config from '../js/config.js';
+import date from '../js/date.js';
 import { FaFileInvoiceDollar, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import axios from 'axios';
 import { MdDelete } from "react-icons/md";

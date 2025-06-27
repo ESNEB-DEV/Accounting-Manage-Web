@@ -3,7 +3,7 @@ import Drawer from '../components/Drawer.jsx'
 import { FaRegChartBar, FaAngleLeft, FaAngleRight, FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
-import config from '../config.js';
+import config from '../js/config.js';
 
 function Record_Estimate() {
 
@@ -125,6 +125,7 @@ function Record_Estimate() {
                     : item
             ));
             setShowEdit(false);
+            getSumAmount();
         });
     };
 
@@ -173,8 +174,8 @@ function Record_Estimate() {
                     <div className='w-1/2'>
                         <p>แสดงจำนวนเงิน</p>
                         <div className='border border-solid border-gray-300 p-2 pl-4 h-24'>
-                            <h3 className='flex flex-row'>จำนวนเงินรวม : {
-                                sum_amount.map((val) => {
+                            <h3 className='flex flex-row'>จำนวนเงินรวม :
+                                {sum_amount.map((val) => {
                                     const colorOver = val.SumAmount > 26000 ? 'text-red-500' : 'text-green-500';
                                     return (
                                         <p key={val.SumAmount} className={`${colorOver} pl-2 font-bold`}>{Number(val.SumAmount).toLocaleString()} บาท</p>

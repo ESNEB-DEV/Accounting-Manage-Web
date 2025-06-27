@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Drawer from '../components/Drawer.jsx'
-import config from '../config.js';
-import date from '../date.js';
+import config from '../js/config.js';
+import date from '../js/date.js';
 import { FaCcVisa, FaEdit, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
@@ -26,7 +26,8 @@ function Use_Credit_Card() {
         f_amount: 0,
         d_doc_date: ""
     });
-
+    const [amountEstimate, setAmountEstimate] = useState([]);
+    const [amountInstallment, setAmountInstallment] = useState([]);
 
     // Pagination logic
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -39,8 +40,25 @@ function Use_Credit_Card() {
         setOrderCreditCard(response.data)
     }
 
+    const getAmountEstimate = async () => {
+        axios.get(`${config.API_URL}/bg_estimate_AmountEstimate`)
+            .then((response) => {
+                setAmountEstimate(response.data);
+            }
+            )
+    };
+
+    const getSumItems = async () => {
+        axios.get(`${config.API_URL}/bg_installment_sumItems`)
+            .then((response) => {
+                setAmountInstallment(response.data);
+            })
+    }
+
     useEffect(() => {
         getOrderCreditCard();
+        getAmountEstimate();
+        getSumItems();
     }, [])
 
     const addOrderCreditCard = (e) => {
@@ -53,11 +71,6 @@ function Use_Credit_Card() {
 
         if (!f_amount) {
             alert("กรุณาระบุ จำนวนเงิน");
-            return;
-        }
-
-        if (!d_doc_date) {
-            alert("กรุณาระบุ วันที่");
             return;
         }
 
@@ -80,7 +93,10 @@ function Use_Credit_Card() {
 
         setC_name("");
         setF_amount("");
-        setD_doc_date("");
+        setD_doc_date(() => {
+            const today = new Date();
+            return today.toISOString().split('T')[0];
+        });
     };
 
     const handleDeleteClick = (bg_credit_id) => {
@@ -182,6 +198,39 @@ function Use_Credit_Card() {
                             </div>
                         </div>
                     </div>
+                    <div className='w-1/2'>
+                        <p>แสดงยอดใช้จ่ายบัตรเครดิต </p>
+                        <div className='border border-solid border-gray-300 p-2 pl-4 '>
+                            <div>
+                                <h3 className='mb-1'>ยอดเงินประมาณการ :
+                                    {amountEstimate.map((val, idx) => {
+                                        return (
+                                            <span key={idx} className='text-gray-600 text-right ml-2'>
+                                                {Number(val.AmountEstimate).toLocaleString(undefined, {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2
+                                                })} บาท
+                                            </span>
+                                        )
+                                    })}
+                                </h3>
+                                <h3 className='mb-1'>ผ่อนสินค้า :
+                                    {amountInstallment.map((val, idx) => {
+                                        return (
+                                            <span key={idx} className='text-gray-600 text-right ml-2'>
+                                                {Number(val.sumPerMonth).toLocaleString(undefined, {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2
+                                                })} บาท
+                                            </span>
+                                        )
+                                    })}
+                                </h3>
+                                <h3 className='mb-1'>ยอดเงินใช้ไปแล้ว :</h3>
+                                <h3 className='mb-1'>ยอดเงินคงเหลือใช้ :</h3>
+                            </div>
+                        </div>
+                    </div>
                 </form>
                 <div className='mx-10'>
                     <label>รายการใช้บัตรเครดิต</label>
@@ -190,7 +239,7 @@ function Use_Credit_Card() {
                     <thead>
                         <tr className='bg-gray-200'>
                             <th className='border border-gray-300 p-2 w-20'>ลำดับ</th>
-                            <th className='border border-gray-300 p-2'>รายการจ่าย</th>
+                            <th className='border border-gray-300 p-2 w-96'>รายการจ่าย</th>
                             <th className='border border-gray-300 p-2'>จำนวนเงิน</th>
                             <th className='border border-gray-300 p-2'>วันที่ใช้จ่าย</th>
                             <th className='border border-gray-300 p-2'>-</th>
@@ -203,7 +252,7 @@ function Use_Credit_Card() {
                                 return (
                                     <tr key={val.bg_credit_id} className='hover:bg-gray-200'>
                                         <td className='text-center w-20'>{order}</td>
-                                        <td className='text-left px-5 pl-10 w-[200px] md:w-[200px] lg:w-[700px]'><p className='text-gray-600'>{val.c_name}</p></td>
+                                        <td className='text-left px-5 w-96'><p className='text-gray-600'>{val.c_name}</p></td>
                                         <td><p className='text-gray-600 text-right'>{Number(val.f_amount).toLocaleString()} บาท</p></td>
                                         <td><p className='text-gray-600 text-right'>{date.formatThaiDate(val.d_doc_date)}</p></td>
                                         <td>

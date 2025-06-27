@@ -1,5 +1,5 @@
 import React from 'react'
-import Drawer from '../../components/Drawer.jsx'
+import Drawer from '../components/Drawer.jsx'
 
 function Rep_Installment_Credit_Card() {
     return (

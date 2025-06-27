@@ -135,7 +135,6 @@ app.get('/bg_daily_sum_today', (req, res) => {
     });
 });
 
-
 app.delete('/bg_daily_delete/:bg_daily_id', (req, res) => {
     const bg_daily_id = req.params.bg_daily_id;
     db.query('DELETE FROM bg_daily WHERE bg_daily_id = ?', bg_daily_id, (err, results) => {
@@ -148,7 +147,6 @@ app.delete('/bg_daily_delete/:bg_daily_id', (req, res) => {
 });
 // End บันทึกรายการรับ-จ่ายเงิน
 
-
 //บันทึกรายการผ่อนชำระบัตรเคดิต
 app.get('/bg_installment', (req, res) => {
     db.query('SELECT * FROM bg_installment ORDER BY bg_installment_id DESC', (err, results) => {
@@ -160,8 +158,8 @@ app.get('/bg_installment', (req, res) => {
     });
 });
 
-app.get('/bg_installment_contAct', (req, res) => {
-    db.query('SELECT count(bg_installment_id) as CountAct  FROM bg_installment where i_active = 1', (err, results) => {
+app.get('/bg_installment_sumItems', (req, res) =>    {
+    db.query('SELECT count(bg_installment_id) as CountAct , SUM(f_amount / c_preriod) as sumPerMonth FROM bg_installment where i_active = 1', (err, results) => {
         if (err) {
             console.log(err);
         } else {
@@ -169,6 +167,14 @@ app.get('/bg_installment_contAct', (req, res) => {
         }
     });
 });
+//     db.query('SELECT count(bg_installment_id) as CountAct  FROM bg_installment where i_active = 1', (err, results) => {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             res.send(results);
+//         }
+//     });
+// });
 
 app.post('/bg_installment_create', (req, res) => {
     const { c_name, f_amount, c_preriod, d_doc_date, i_active } = req.body;
@@ -228,6 +234,16 @@ app.get('/bg_estimate_sum', (req, res) => {
     });
 });
 
+app.get('/bg_estimate_AmountEstimate', (req, res) => {
+    db.query('SELECT f_amount as AmountEstimate FROM bg_estimate where bg_estimate_id = 3', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
 app.post('/bg_estimate_create', (req, res) => {
     const { c_name, f_amount } = req.body;
     db.query('INSERT INTO bg_estimate (c_name, f_amount) VALUES (?, ?)',
@@ -263,6 +279,7 @@ app.put('/bg_estimate_update/:bg_estimate_id', (req, res) => {
             }
         });
 });
+// End บันทึกรายการประมาณการค่าใช้จ่าย
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');

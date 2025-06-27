@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Drawer from '../components/Drawer'
-import config from '../config';
-import date from '../date.js';
+import config from '../js/config.js';
+import date from '../js/date.js';
 import axios from 'axios';
 import { FaTable, FaEdit, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -28,6 +28,7 @@ function Installment_Credit_Card() {
         i_active: 0
     });
     const [countAct, setCountAct] = useState([]);
+    const [sumperMonth, setSumPerMonth] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
 
@@ -37,29 +38,22 @@ function Installment_Credit_Card() {
     const currentItems = items.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(items.length / itemsPerPage);
 
-
-    const sumActMonth = items
-        .filter(item => item.i_active === 1) //เลือกเฉพาะรายการที่ i_active มีค่าเท่ากับ 1 (แปลว่าใช้งานอยู่)
-        .reduce((sum, item) => {  //reduce((sum, item) => { ... }, 0) รวมค่าทั้งหมดโดยเริ่มต้นที่ 0
-            const perMonth = Number(item.f_amount) / Number(item.c_preriod || 1); // แปลง f_amount เป็นตัวเลข แล้วหารด้วย c_preriod (จำนวนงวด)  ถ้า c_preriod ไม่มีค่า จะใช้ 1 เพื่อป้องกันหารด้วยศูนย์
-            return sum + perMonth;  // บวกยอดรายเดือนของแต่ละรายการเข้ากับผลรวม
-        }, 0);
-
     const getInstallment = async () => {
         const response = await axios.get(`${config.API_URL}/bg_installment`);
         setItems(response.data)
     }
 
-    const getCountAct = async () => {
-        axios.get(`${config.API_URL}/bg_installment_contAct`)
+    const getSumItems = async () => {
+        axios.get(`${config.API_URL}/bg_installment_sumItems`)
             .then((response) => {
                 setCountAct(response.data);
+                setSumPerMonth(response.data);
             })
     }
 
     useEffect(() => {
         getInstallment();
-        getCountAct();
+        getSumItems();
     }, []);
 
     const addItems = (e) => {
@@ -109,7 +103,7 @@ function Installment_Credit_Card() {
                 setItems(items.filter((val) => val.bg_installment_id !== deleteId));
                 setShowConfirm(false);
                 setDeleteId(null);
-                getCountAct();
+                getSumItems();
             })
     };
 
@@ -139,7 +133,7 @@ function Installment_Credit_Card() {
                     : item
             ));
             setShowEdit(false);
-            getCountAct();
+            getSumItems();
         });
     };
 
@@ -241,11 +235,13 @@ function Installment_Credit_Card() {
                             </div>
                             <div className='flex items-center mt-2'>
                                 <p className='mr-2'>ยอดรวม ต่อเดือน</p>
-                                <p className='mr-2 font-bold text-blue-500'>
-                                    {sumActMonth.toLocaleString(undefined, {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2
-                                    })}
+                                <p className='font-bold text-blue-500'>
+                                    {sumperMonth.map((val, idx) => (
+                                        <span key={idx} className='mr-2 font-bold'>{Number(val.sumPerMonth).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })}</span>
+                                    ))}
                                 </p>บาท
                             </div>
                         </div>

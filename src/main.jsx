@@ -10,13 +10,13 @@ import Record_Daily from './pages/Record_Daily.jsx'
 import Use_Credit_Card from './pages/Use_Credit_Card.jsx'
 import Installment_Credit_Card from './pages/Installment_Credit_Card.jsx'
 // Commponent Report
-import Rep_Installment_Credit_Card from '../src/pages/reports/Rep_Installment_Credit_Card.jsx'
-import Rep_Next_Expenses_List from '../src/pages/reports/Rep_Next_Expenses_List.jsx'
-import Rep_Record_Daily from '../src/pages/reports/Rep_Record_Daily.jsx'
-import Rep_Use_Credit_Card from '../src/pages/reports/Rep_Use_Credit_Card.jsx'
+import Rep_Installment_Credit_Card from './reports/Rep_Installment_Credit_Card.jsx'
+import Rep_Next_Expenses_List from './reports/Rep_Next_Expenses_List.jsx'
+import Rep_Record_Daily from './reports/Rep_Record_Daily.jsx'
+import Rep_Use_Credit_Card from './reports/Rep_Use_Credit_Card.jsx'
 // Component Other
 import ChangePass from './pages/ChangePass.jsx'
-import Signin from './Signin.jsx'
+import Signin from './pages/Signin.jsx'
 import User from './pages/User.jsx'
 
 const router = createBrowserRouter([
