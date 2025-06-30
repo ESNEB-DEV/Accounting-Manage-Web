@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Drawer from '../components/Drawer.jsx'
 import { FaRegChartBar, FaAngleLeft, FaAngleRight, FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import date from '../js/date.js';
 import axios from 'axios';
 import config from '../js/config.js';
 
@@ -118,6 +119,7 @@ function Record_Estimate() {
         axios.put(`${config.API_URL}/bg_estimate_update/${editData.bg_estimate_id}`, {
             c_name: editData.c_name,
             f_amount: editData.f_amount,
+            t_update_dt: date.getCurrentDateTimeTH()
         }).then(() => {
             setItems(items.map(item =>
                 item.bg_estimate_id === editData.bg_estimate_id

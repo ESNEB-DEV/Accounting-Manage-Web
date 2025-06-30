@@ -26,7 +26,7 @@ function Use_Credit_Card() {
         f_amount: 0,
         d_doc_date: ""
     });
-    const [amountEstimate, setAmountEstimate] = useState([]);
+    const [amountEstimate, setAmountEstimate] = useState([]);   
     const [amountInstallment, setAmountInstallment] = useState([]);
 
     const { start, end } = date.getCurrentBillingPeriod();
@@ -150,7 +150,8 @@ function Use_Credit_Card() {
         axios.put(`${config.API_URL}/bg_credit_update/${editData.bg_credit_id}`, {
             c_name: editData.c_name,
             f_amount: editData.f_amount,
-            d_doc_date: editData.d_doc_date
+            d_doc_date: editData.d_doc_date,
+            t_update_dt: date.getCurrentDateTimeTH()
         }).then(() => {
             setOrderCreditCard(OrderCreditCard.map(item =>
                 item.bg_credit_id === editData.bg_credit_id
@@ -254,8 +255,8 @@ function Use_Credit_Card() {
                                         })} บาท
                                     </span>
                                 </h3>
-                                <h3 className='mb-1 ml-5 mt-2 font-bold'>รวม :
-                                    <span className={`text-${sumall <= totalEstimate ? 'green' : 'red'}-600 text-right ml-2`}>
+                                <h3 className='mb-1 ml-5 mt-2 font-bold'>รวมที่ต้องจ่าย :
+                                    <span className={`text-${sumall <= totalEstimate ? 'gray' : 'red'}-600 text-right ml-2`}>
                                         {sumall.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2

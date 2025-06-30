@@ -126,7 +126,8 @@ function Installment_Credit_Card() {
 
     const handleSaveEdit = () => {
         axios.put(`${config.API_URL}/bg_installment_update/${editData.bg_installment_id}`, {
-            i_active: editData.i_active
+            i_active: editData.i_active,
+            t_update_dt: date.getCurrentDateTimeTH()
         }).then(() => {
             setItems(items.map(item =>
                 item.bg_installment_id === editData.bg_installment_id

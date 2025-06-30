@@ -49,6 +49,8 @@ function Drawer() {
                         <FcSalesPerformance className='mr-2 w-[20px] h-[20px] ' />Accounting Manage Web</h2>
                     <nav className="flex flex-col space-y-2 text-gray-700 flex-1">
                         <div className="group">
+                            <Link to="/" className="block px-3 py-2 mb-2 rounded font-semibold flex items-center bg-gray-600 hover:bg-gray-700 text-white">
+                                <FaHome className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />Dashboard</Link>
                             <a className="block px-3 py-2 rounded font-semibold flex items-center bg-gray-600 text-white">
                                 <MdAttachMoney className='text-white mr-2 w-[20px] h-[20px] text-gray-600' />บันทึกการเงิน</a>
                             <div className="ml-4 mt-1 flex flex-col space-y-1">

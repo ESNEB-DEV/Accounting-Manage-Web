@@ -39,9 +39,9 @@ app.post('/bg_credit_create', (req, res) => {
 
 app.put('/bg_credit_update/:bg_credit_id', (req, res) => {
     const bg_credit_id = req.params.bg_credit_id;
-    const { c_name, f_amount, d_doc_date } = req.body;
-    db.query('UPDATE bg_credit SET c_name = ?, f_amount = ?, d_doc_date = ? WHERE bg_credit_id = ?',
-        [c_name, f_amount, d_doc_date, bg_credit_id], (err, results) => {
+    const { c_name, f_amount, d_doc_date, t_update_dt } = req.body;
+    db.query('UPDATE bg_credit SET c_name = ?, f_amount = ?, d_doc_date = ? ,t_update_dt = ? WHERE bg_credit_id = ?',
+        [c_name, f_amount, d_doc_date, t_update_dt, bg_credit_id], (err, results) => {
             if (err) {
                 console.log(err);
             } else {
@@ -158,7 +158,7 @@ app.get('/bg_installment', (req, res) => {
     });
 });
 
-app.get('/bg_installment_sumItems', (req, res) =>    {
+app.get('/bg_installment_sumItems', (req, res) => {
     db.query('SELECT count(bg_installment_id) as CountAct , SUM(f_amount / c_preriod) as sumPerMonth FROM bg_installment where i_active = 1', (err, results) => {
         if (err) {
             console.log(err);
@@ -167,14 +167,7 @@ app.get('/bg_installment_sumItems', (req, res) =>    {
         }
     });
 });
-//     db.query('SELECT count(bg_installment_id) as CountAct  FROM bg_installment where i_active = 1', (err, results) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.send(results);
-//         }
-//     });
-// });
+
 
 app.post('/bg_installment_create', (req, res) => {
     const { c_name, f_amount, c_preriod, d_doc_date, i_active } = req.body;
@@ -190,9 +183,9 @@ app.post('/bg_installment_create', (req, res) => {
 
 app.put('/bg_installment_update/:bg_installment_id', (req, res) => {
     const bg_installment_id = req.params.bg_installment_id;
-    const { i_active } = req.body;
-    db.query('UPDATE bg_installment SET i_active = ? WHERE bg_installment_id = ?',
-        [i_active, bg_installment_id], (err, results) => {
+    const { i_active, t_update_dt } = req.body;
+    db.query('UPDATE bg_installment SET i_active = ? , t_update_dt  = ? WHERE bg_installment_id = ?',
+        [i_active, t_update_dt, bg_installment_id], (err, results) => {
             if (err) {
                 console.log(err);
             } else {
@@ -269,9 +262,9 @@ app.delete('/bg_estimate_delete/:bg_estimate_id', (req, res) => {
 
 app.put('/bg_estimate_update/:bg_estimate_id', (req, res) => {
     const bg_estimate_id = req.params.bg_estimate_id;
-    const { c_name, f_amount } = req.body;
-    db.query('UPDATE bg_estimate SET c_name = ? , f_amount = ? WHERE bg_estimate_id = ?',
-        [c_name, f_amount, bg_estimate_id], (err, results) => {
+    const { c_name, f_amount, t_update_dt } = req.body;
+    db.query('UPDATE bg_estimate SET c_name = ? , f_amount = ? , t_update_dt = ? WHERE bg_estimate_id = ?',
+        [c_name, f_amount, t_update_dt, bg_estimate_id], (err, results) => {
             if (err) {
                 console.log(err);
             } else {
@@ -280,6 +273,31 @@ app.put('/bg_estimate_update/:bg_estimate_id', (req, res) => {
         });
 });
 // End บันทึกรายการประมาณการค่าใช้จ่าย
+
+// บันทึกค่าใช้จ่ายประจำเดือน
+app.get('/bg_expense', (req, res) => {
+    db.query('SELECT * FROM bg_expense', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
+app.post('/bg_expense_create', (req, res) => {
+    const { c_name, f_amount } = req.body;
+    db.query('INSERT INTO bg_expense (c_name, f_amount) VALUES (?, ?)',
+        [c_name, f_amount], (err, results) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({ bg_expense_id: results.insertId });
+            }
+        });
+});
+
+// End บันทึกค่าใช้จ่ายประจำเดือน
 
 app.listen(3001, () => {
     console.log('Server is running on port 3001');

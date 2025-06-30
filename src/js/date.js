@@ -43,11 +43,11 @@ function getCurrentBillingPeriod(today = new Date()) {
     let start, end;
     if (date >= 26) {
         // รอบเดือนถัดไป
-        start = new Date(year, month, 27);
+        start = new Date(year, month, 26);
         end = new Date(year, month + 1, 26);
     } else {
         // รอบนี้เดือนนี้
-        start = new Date(year, month - 1, 26);
+        start = new Date(year, month - 1, 25);
         end = new Date(year, month, 25);
     }
     // คืนค่าเป็น yyyy-mm-dd
@@ -57,9 +57,16 @@ function getCurrentBillingPeriod(today = new Date()) {
     };
 }
 
+function getCurrentDateTimeTH() {
+    const now = new Date();
+    now.setHours(now.getHours() + 7); // เพิ่ม 7 ชั่วโมงเป็นเวลาไทย
+    return now.toISOString().slice(0, 19).replace('T', ' ');
+}
+
 export default {
     CurrentDateDisplay,
     formatThaiDate,
     formatInputDate,
-    getCurrentBillingPeriod
+    getCurrentBillingPeriod,
+    getCurrentDateTimeTH
 };
