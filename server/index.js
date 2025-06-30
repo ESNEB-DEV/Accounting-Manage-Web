@@ -276,7 +276,7 @@ app.put('/bg_estimate_update/:bg_estimate_id', (req, res) => {
 
 // บันทึกค่าใช้จ่ายประจำเดือน
 app.get('/bg_expense', (req, res) => {
-    db.query('SELECT * FROM bg_expense', (err, results) => {
+    db.query('SELECT * FROM bg_expense ORDER BY bg_expense_id DESC', (err, results) => {
         if (err) {
             console.log(err);
         } else {
@@ -284,6 +284,17 @@ app.get('/bg_expense', (req, res) => {
         }
     });
 });
+
+app.get('/bg_expense_sum', (req, res) => {
+    db.query('SELECT sum(f_amount) as SumAmount FROM bg_expense', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
 
 app.post('/bg_expense_create', (req, res) => {
     const { c_name, f_amount } = req.body;
@@ -293,6 +304,30 @@ app.post('/bg_expense_create', (req, res) => {
                 console.log(err);
             } else {
                 res.json({ bg_expense_id: results.insertId });
+            }
+        });
+});
+
+app.delete('/bg_expense_delete/:bg_expense_id', (req, res) => {
+    const bg_expense_id = req.params.bg_expense_id;
+    db.query('DELETE FROM bg_expense WHERE bg_expense_id = ?', bg_expense_id, (err, results) => {
+        if (err) {
+            console.log(bg_expense_id);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
+app.put('/bg_expense_update/:bg_expense_id', (req, res) => {
+    const bg_expense_id = req.params.bg_expense_id;
+    const { c_name, f_amount, t_update_dt } = req.body;
+    db.query('UPDATE bg_expense SET c_name = ? , f_amount = ? , t_update_dt = ? WHERE bg_expense_id = ?',
+        [c_name, f_amount, t_update_dt, bg_expense_id], (err, results) => {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({ success: true });
             }
         });
 });

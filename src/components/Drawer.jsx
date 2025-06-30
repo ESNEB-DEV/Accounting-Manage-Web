@@ -58,7 +58,7 @@ function Drawer() {
                                 <Link to="/Record_Daily" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกรายรับ - รายจ่าย</Link>
                                 <Link to="/Use_Credit_Card" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกรายการใช้บัตรเครดิต</Link>
                                 <Link to="/Installment_Credit_Card" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกรายการผ่อนชำระบัตรเครดิต</Link>
-                                <Link to="/Expenses" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">ค่าใช้จ่ายประจำเดือน</Link>
+                                <Link to="/Expenses" className="block px-3 py-1 rounded hover:bg-gray-200 text-sm">บันทึกค่าใช้จ่ายประจำเดือน</Link>
                             </div>
                         </div>
                         <div className="group">
