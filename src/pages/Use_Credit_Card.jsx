@@ -8,7 +8,6 @@ import axios from 'axios';
 import Footer from '../components/Footer'
 
 function Use_Credit_Card() {
-    s
 
     const [OrderCreditCard, setOrderCreditCard] = useState([]);
     const [c_name, setC_name] = useState("");
