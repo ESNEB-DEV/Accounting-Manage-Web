@@ -5,6 +5,7 @@ import date from '../js/date.js';
 import { FaFileInvoiceDollar, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import axios from 'axios';
 import { MdDelete } from "react-icons/md";
+import Footer from '../components/Footer'
 
 function Record_Daily() {
 
@@ -296,23 +297,25 @@ function Record_Daily() {
                         )}
                     </tbody>
                 </table>
-            </div>
-            <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600 text-sm">
-                <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}> <FaAngleLeft className='w-[25px] h-[25px]' /></button>
-                <span>หน้า {currentPage} / {totalPages}</span>
-                <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} > <FaAngleRight className='w-[25px] h-[25px]' /></button>
-            </div>
-            {showConfirm && (
-                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
-                    <div className="bg-white rounded-lg shadow-lg p-8 w-96">
-                        <div className="mb-6 text-lg text-gray-700 text-center">ต้องการลบข้อมูลหรือไม่ ?</div>
-                        <div className="flex justify-center gap-4">
-                            <button className="border border-red-500 text-red-500 px-6 py-2 rounded bg-transparent hover:bg-red-50" onClick={cancelDelete} type="button" >ยกเลิก</button>
-                            <button className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600" onClick={confirmDelete} >ตกลง</button>
+
+                <div className="flex justify-end items-center mt-4 gap-2 bg-gray-200 h-10 text-lg text-gray-600 text-sm">
+                    <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))} disabled={currentPage === 1}> <FaAngleLeft className='w-[25px] h-[25px]' /></button>
+                    <span>หน้า {currentPage} / {totalPages}</span>
+                    <button className="px-3 py-1 rounded border" onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages} > <FaAngleRight className='w-[25px] h-[25px]' /></button>
+                </div>
+                {showConfirm && (
+                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 z-50">
+                        <div className="bg-white rounded-lg shadow-lg p-8 w-96">
+                            <div className="mb-6 text-lg text-gray-700 text-center">ต้องการลบข้อมูลหรือไม่ ?</div>
+                            <div className="flex justify-center gap-4">
+                                <button className="border border-red-500 text-red-500 px-6 py-2 rounded bg-transparent hover:bg-red-50" onClick={cancelDelete} type="button" >ยกเลิก</button>
+                                <button className="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600" onClick={confirmDelete} >ตกลง</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
+            <Footer />
         </div>
     )
 }

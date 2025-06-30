@@ -8,6 +8,7 @@ import { MdDelete } from "react-icons/md";
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
+import Footer from '../components/Footer'
 
 function Installment_Credit_Card() {
 
@@ -370,6 +371,7 @@ function Installment_Credit_Card() {
                     </div>
                 )}
             </div>
+            <Footer />
         </div>
     )
 }

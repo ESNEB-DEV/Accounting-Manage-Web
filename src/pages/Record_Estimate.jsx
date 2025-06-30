@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import date from '../js/date.js';
 import axios from 'axios';
 import config from '../js/config.js';
+import Footer from '../components/Footer'
 
 function Record_Estimate() {
 
@@ -296,6 +297,7 @@ function Record_Estimate() {
                     )
                 }
             </div >
+            <Footer />
         </div >
     )
 }

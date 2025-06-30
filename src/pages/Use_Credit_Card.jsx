@@ -5,8 +5,10 @@ import date from '../js/date.js';
 import { FaCcVisa, FaEdit, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
+import Footer from '../components/Footer'
 
 function Use_Credit_Card() {
+    s
 
     const [OrderCreditCard, setOrderCreditCard] = useState([]);
     const [c_name, setC_name] = useState("");
@@ -26,7 +28,7 @@ function Use_Credit_Card() {
         f_amount: 0,
         d_doc_date: ""
     });
-    const [amountEstimate, setAmountEstimate] = useState([]);   
+    const [amountEstimate, setAmountEstimate] = useState([]);
     const [amountInstallment, setAmountInstallment] = useState([]);
 
     const { start, end } = date.getCurrentBillingPeriod();
@@ -381,6 +383,7 @@ function Use_Credit_Card() {
                     </div>
                 )}
             </div>
+            <Footer />
         </div>
     )
 }

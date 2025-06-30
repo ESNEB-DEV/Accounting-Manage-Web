@@ -1,5 +1,6 @@
 import React from 'react'
 import Drawer from '../components/Drawer'
+import Footer from '../components/Footer'
 
 function Dashboard() {
     return (
@@ -11,7 +12,9 @@ function Dashboard() {
                     <p className='text-sm text-gray-600'>ยินดีต้อนรับเข้าสู่ระบบการลงบันทึกรายการค่าใช้จ่าย</p>
                 </div>
             </div>
+            <Footer />
         </div>
+
     )
 }
 

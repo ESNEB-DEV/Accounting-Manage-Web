@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import axios from 'axios';
 import config from '../js/config.js';
 import date from '../js/date.js';
+import Footer from '../components/Footer'
 
 function Expenses() {
 
@@ -288,6 +289,7 @@ function Expenses() {
                     )
                 }
             </div>
+            <Footer />
         </div>
     )
 }
