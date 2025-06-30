@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaUser, FaLock, FaSignInAlt } from "react-icons/fa";
 
-function SignIn() {
+function SignUp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -60,4 +60,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default SignUp;
