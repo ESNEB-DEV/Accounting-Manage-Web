@@ -256,7 +256,7 @@ function Use_Credit_Card() {
                                         })} บาท
                                     </span>
                                 </h3>
-                                <h3 className='mb-1 ml-5 mt-2 font-bold'>รวมที่ต้องจ่าย :
+                                <h3 className='mb-1 ml-5 mt-2 font-bold'>ชำระเดือนนี้ :
                                     <span className={`text-${sumall <= totalEstimate ? 'gray' : 'red'}-600 text-right ml-2`}>
                                         {sumall.toLocaleString(undefined, {
                                             minimumFractionDigits: 2,
