@@ -282,8 +282,10 @@ function Record_Daily() {
                                             </p>
                                         </td>
                                         <td><p className='text-gray-600 text-right pr-5'>{date.formatThaiDate(val.t_create_dt)}</p></td>
-                                        <td className='text-center'>
-                                            <button className='bg-red-500 text-white px-4 py-1 my-1 rounded hover:bg-red-400' onClick={() => { handleDeleteClick(val.bg_daily_id) }}><MdDelete /></button>
+                                        <td>
+                                            <div className='flex justify-center '>
+                                                <MdDelete className='text-red-500 hover:text-red-700 mx-2 w-5 h-5 m-2 cursor-pointer' onClick={() => { handleDeleteClick(val.bg_daily_id) }} />
+                                            </div>
                                         </td>
                                     </tr>
                                 );

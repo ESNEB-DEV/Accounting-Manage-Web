@@ -214,15 +214,11 @@ function Record_Estimate() {
                                             minimumFractionDigits: 2,
                                             maximumFractionDigits: 2
                                         })} บาท</td>
-                                        <td className='text-center'>
-                                            <button className=' text-white px-4 py-1 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
-                                                onClick={() => handleEditClick(val)}>
-                                                <FaEdit />
-                                            </button>
-                                            <button className='bg-red-500 text-white px-4 py-1 my-1 rounded hover:bg-red-400'
-                                                onClick={() => { handleDeleteClick(val.bg_estimate_id) }}>
-                                                <MdDelete />
-                                            </button>
+                                        <td>
+                                            <div className='flex justify-center '>
+                                                <FaEdit className='text-blue-500 hover:text-blue-700 mx-2 w-5 h-5 m-2 cursor-pointer' onClick={() => handleEditClick(val)} />
+                                                <MdDelete className='text-red-500 hover:text-red-700 mx-2 w-5 h-5 m-2 cursor-pointer' onClick={() => { handleDeleteClick(val.bg_estimate_id) }} />
+                                            </div>
                                         </td>
                                     </tr>
                                 );

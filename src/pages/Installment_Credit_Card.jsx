@@ -9,6 +9,9 @@ import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Footer from '../components/Footer'
+import LinearProgress from '@mui/material/LinearProgress';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
 function Installment_Credit_Card() {
 
@@ -213,12 +216,12 @@ function Installment_Credit_Card() {
                                     onChange={(e) => { setD_doc_date(e.target.value) }}
                                     className='border border-gray-300 rounded w-50 p-2 mr-5 focus:outline-none h-7' />
                                 <input type="checkbox"
+                                    hidden="hidden"
                                     value={1}
                                     checked={i_active === 1}
                                     onChange={() => setI_active(1)}
                                     className='mr-2'
                                     disabled />
-                                <label>เริ่มการผ่อนชำระ</label>
                             </div>
                             <div className='mr-15 mt-1 p-2'>
                                 <button className='bg-gray-600 text-white w-36 px-4 py-2 rounded hover:bg-gray-500 h-8 flex justify-center items-center' onClick={addItems}>
@@ -260,6 +263,7 @@ function Installment_Credit_Card() {
                             <th className='border border-gray-300 p-2'>รายการ</th>
                             <th className='border border-gray-300 p-2'>จำนวนเงิน</th>
                             <th className='border border-gray-300 p-2'>จำนวนงวด</th>
+                            <th className='border border-gray-300 p-2'>งวดชำระ</th>
                             <th className='border border-gray-300 p-2'>สถานะการผ่อน</th>
                             <th className='border border-gray-300 p-2'>งวดละ/บาท</th>
                             <th className='border border-gray-300 p-2'>วันที่</th>
@@ -272,24 +276,43 @@ function Installment_Credit_Card() {
 
                                 const order = indexOfFirstItem + idx + 1;
 
+                                const startDate = val.d_doc_date;
+                                const totalInstallments = val.c_preriod;
+                                const { paid, total } = date.getInstallmentProgress(startDate, totalInstallments);
+                                const progress = (paid / total) * 100;
+
                                 return (
                                     <tr key={val.bg_installment_id} className='hover:bg-gray-200'>
                                         <td className='text-center w-20'>{order}</td>
                                         <td className='w-[190px] pl-2'>
-                                            <div>{val.c_name}
+                                            <div>{val.c_name}</div>
+                                        </td>
+                                        <td>
+                                            <div className='text-right pr-5'>
+                                                {Number(val.f_amount).toLocaleString(undefined, {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2
+                                                })} บาท
                                             </div>
                                         </td>
-                                        <td><div className='text-right pr-5'>{Number(val.f_amount).toLocaleString(undefined, {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2
-                                        })} บาท</div></td>
                                         <td>
-                                            <div className='text-center'>{val.c_preriod}
-                                            </div>
+                                            <div className='text-center'>{val.c_preriod}</div>
+                                        </td>
+                                        <td>
+                                            <Box sx={{ display: 'flex', alignItems: 'center', width: 300 }}>
+                                                <Box sx={{ width: '100px', mr: 1 }}>
+                                                    <LinearProgress variant="determinate" value={progress} />
+                                                </Box>
+                                                <Box sx={{ minWidth: 100 }}>
+                                                    <Typography variant="body2" color="text.secondary">
+                                                        {`${paid} / ${total}`}
+                                                    </Typography>
+                                                </Box>
+                                            </Box>
                                         </td>
                                         <td>
                                             <div className={`text-center ${val.i_active === 0 ? 'text-gray-500' : 'text-green-600'}`}>
-                                                {val.i_active === 0 ? 'ผ่อนครบแล้ว' : 'อยู่ในช่วงผ่อนชำระ'}
+                                                {val.i_active === 0 ? 'ปิดการผ่อนชำระ' : 'ใช้งานอยู่'}
                                             </div>
                                         </td>
                                         <td>
@@ -301,13 +324,13 @@ function Installment_Credit_Card() {
                                                     }) : '-'} บาท
                                             </div>
                                         </td>
-                                        <td><div className='text-right'>{date.formatThaiDate(val.d_doc_date)}</div></td>
+                                        <td>
+                                            <div className='text-right'>{date.formatThaiDate(val.d_doc_date)}</div>
+                                        </td>
                                         <td>
                                             <div className='flex justify-center '>
-                                                <button className=' text-white px-4 py-1 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
-                                                    onClick={() => handleEditClick(val)}
-                                                ><FaEdit /></button>
-                                                <button className='text-white px-4 py-1 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.bg_installment_id) }}><MdDelete /></button>
+                                                <FaEdit className='text-blue-500 hover:text-blue-700 mx-2 w-5 h-5 m-2 cursor-pointer' onClick={() => handleEditClick(val)} />
+                                                <MdDelete className='text-red-500 hover:text-red-700 mx-2 w-5 h-5 m-2 cursor-pointer' onClick={() => { handleDeleteClick(val.bg_installment_id) }} />
                                             </div>
                                         </td>
                                     </tr>

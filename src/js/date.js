@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 
 function CurrentDateDisplay() {
     const today = new Date();
@@ -63,10 +64,31 @@ function getCurrentDateTimeTH() {
     return now.toISOString().slice(0, 19).replace('T', ' ');
 }
 
+function getInstallmentProgress(startDate, totalInstallments) {
+    let start = dayjs(startDate).startOf('day');
+    const today = dayjs().startOf('day');
+
+    // ✅ ถ้า startDate กับวันนี้อยู่เดือนเดียวกัน → เริ่มงวดจาก "เดือนถัดไป"
+    if (start.month() === today.month() && start.year() === today.year()) {
+        start = start.add(1, 'month').startOf('month');
+    }
+
+    let monthsDiff = today.diff(start, 'month');
+
+    // ✅ ถ้ายังไม่ถึงวันที่ 1 ของรอบเดือนนั้น ๆ → ยังไม่ถึงงวด
+    if (today.date() < start.date()) {
+        monthsDiff--;
+    }
+
+    const paid = Math.min(Math.max(monthsDiff + 1, 0), totalInstallments);
+    return { paid, total: totalInstallments };
+}
+
 export default {
     CurrentDateDisplay,
     formatThaiDate,
     formatInputDate,
     getCurrentBillingPeriod,
-    getCurrentDateTimeTH
+    getCurrentDateTimeTH,
+    getInstallmentProgress
 };

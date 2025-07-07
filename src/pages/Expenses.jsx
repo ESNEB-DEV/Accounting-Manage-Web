@@ -211,11 +211,9 @@ function Expenses() {
                                             </div>
                                         </td>
                                         <td>
-                                            <div className='flex justify-center'>
-                                                <button className=' text-white px-4 py-1 rounded bg-green-400 hover:bg-green-500 my-1 mr-4'
-                                                    onClick={() => handleEditClick(val)}
-                                                ><FaEdit /></button>
-                                                <button className='text-white px-4 py-1 rounded bg-red-600 hover:bg-red-500 my-1' onClick={() => { handleDeleteClick(val.bg_expense_id) }}><MdDelete /></button>
+                                            <div className='flex justify-center '>
+                                                <FaEdit className='text-blue-500 hover:text-blue-700 mx-2 w-5 h-5 m-2 cursor-pointer' onClick={() => handleEditClick(val)} />
+                                                <MdDelete className='text-red-500 hover:text-red-700 mx-2 w-5 h-5 m-2 cursor-pointer' onClick={() => { handleDeleteClick(val.bg_expense_id) }} />
                                             </div>
                                         </td>
                                     </tr>
