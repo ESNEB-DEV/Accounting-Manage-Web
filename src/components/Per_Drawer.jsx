@@ -13,8 +13,6 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-const drawerWidth = 265;
-
 function Per_Drawer() {
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,6 +23,8 @@ function Per_Drawer() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    
+    const drawerWidth = 265;
 
     return (
         <Box sx={{ display: 'flex' }}>
