@@ -35,7 +35,7 @@ function Per_Drawer() {
                 <Box sx={{ overflow: 'auto' }}>
                     <nav className="flex flex-col space-y-2 text-gray-700 flex-1 m-4">
                         <div className="group">
-                            <Link to="/" className="block px-3 py-2 mb-2 rounded font-semibold flex items-center">
+                            <Link to="/" className="block px-3 py-2 mb-2 rounded font-semibold flex items-center bg-gray-200 hover:bg-gray-300">
                                 <FaHome className='mr-2 w-[20px] h-[20px] text-gray-600' />Dashboard</Link>
                             <Divider />
                             <a className="block px-3 py-2 rounded font-semibold flex items-center">
