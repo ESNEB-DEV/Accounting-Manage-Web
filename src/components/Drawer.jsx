@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaBars, FaUserCircle, FaSignOutAlt, FaFileInvoiceDollar, FaHome, FaRegUser } from "react-icons/fa";
+import { FaBars, FaUserCircle, FaSignOutAlt, FaFileInvoiceDollar, FaHome } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 import { MdAttachMoney } from "react-icons/md";
 import { FcSalesPerformance } from "react-icons/fc";
