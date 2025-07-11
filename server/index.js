@@ -333,14 +333,13 @@ app.put('/bg_expense_update/:bg_expense_id', (req, res) => {
             }
         });
 });
-
 // End บันทึกค่าใช้จ่ายประจำเดือน
 
 // ✅ Serve static files from Vite build
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // ✅ SPA fallback: ส่ง index.html สำหรับทุก route ที่ไม่ match
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../dist/index.html'), err => {
         if (err) {
             res.status(500).send(err)
