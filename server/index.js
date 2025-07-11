@@ -15,8 +15,7 @@ const db = mysql.createConnection({
     database: 'accountingsystem',
 });
 
-app.use(express.static(path.resolve(__dirname, '../dist')));
-// Removed duplicate '/bg_credit' route that sends index.html
+app.use(express.static(path.resolve(__dirname, '../dist/index.html')));
 
 // บันทึกการใช้บัตรเครดิต
 app.get('/bg_credit', (req, res) => {
