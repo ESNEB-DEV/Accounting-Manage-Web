@@ -335,13 +335,8 @@ app.put('/bg_expense_update/:bg_expense_id', (req, res) => {
 });
 // End บันทึกค่าใช้จ่ายประจำเดือน
 
-
-// Serve static files from the 'dist' directory
-// This is important if your index.html references other assets like CSS, JS, images
 app.use(express.static(path.resolve(__dirname, '../dist')));
-
-// Route to serve index.html for the root path '/'
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, '../dist/index.html'), function (err) {
         if (err) {
             console.error('Error sending index.html:', err);
@@ -349,17 +344,6 @@ app.get('/', (req, res) => {
         }
     });
 });
-
-// The original route for '/index' (can be kept or removed if '/' is sufficient)
-app.get('/index', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../dist/index.html'), function (err) {
-        if (err) {
-            console.error('Error sending index.html for /index:', err);
-            res.status(500).send(err);
-        }
-    });
-});
-
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
