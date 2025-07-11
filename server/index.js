@@ -15,18 +15,6 @@ const db = mysql.createConnection({
     database: 'accountingsystem',
 });
 
-// ✅ Serve static files from ../dist (เพราะ index.js อยู่ใน /server)
-app.use(express.static(path.join(__dirname, '../dist')));
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../dist/index.html'));
-// });
-
-app.get('/bg_credit', (req, res) => {
-  res.send('bg_credit');
-});
-
-
 // บันทึกการใช้บัตรเครดิต
 app.get('/bg_credit', (req, res) => {
     db.query('SELECT * FROM bg_credit ORDER BY bg_credit_id DESC', (err, results) => {
@@ -348,7 +336,17 @@ app.put('/bg_expense_update/:bg_expense_id', (req, res) => {
 
 // End บันทึกค่าใช้จ่ายประจำเดือน
 
-app.listen(3001, () => {
-    // console.log('Server is running on port 3001');
+// ✅ Serve static files from Vite build
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// ✅ SPA fallback: ส่ง index.html สำหรับทุก route ที่ไม่ match
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist/index.html'), err => {
+        if (err) {
+            res.status(500).send(err)
+        }
+    });
+});
+app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 }); 
