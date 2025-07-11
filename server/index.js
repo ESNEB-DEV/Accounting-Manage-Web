@@ -14,10 +14,6 @@ const db = mysql.createConnection({
     database: 'accountingsystem',
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello from your server 🎉');
-});
-
 // บันทึกการใช้บัตรเครดิต
 app.get('/bg_credit', (req, res) => {
     db.query('SELECT * FROM bg_credit ORDER BY bg_credit_id DESC', (err, results) => {
