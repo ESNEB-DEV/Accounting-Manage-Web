@@ -18,12 +18,12 @@ const db = mysql.createConnection({
 // ✅ Serve static files from ../dist (เพราะ index.js อยู่ใน /server)
 app.use(express.static(path.join(__dirname, '../dist')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
-});
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../dist/index.html'));
+// });
 
-app.get('/Signin', (req, res) => {
-  res.send('Signin');
+app.get('/bg_credit', (req, res) => {
+  res.send('bg_credit');
 });
 
 
