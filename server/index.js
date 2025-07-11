@@ -339,13 +339,14 @@ app.put('/bg_expense_update/:bg_expense_id', (req, res) => {
 app.use(express.static(path.join(__dirname, '../dist')));
 
 // ✅ SPA fallback: ส่ง index.html สำหรับทุก route ที่ไม่ match
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../dist/index.html'), err => {
+app.get('/bg_credit', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../dist/index.html'), function (err) {
         if (err) {
             res.status(500).send(err)
         }
     });
 });
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 }); 
