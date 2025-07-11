@@ -18,9 +18,12 @@ const db = mysql.createConnection({
 // ✅ Serve static files from ../dist (เพราะ index.js อยู่ใน /server)
 app.use(express.static(path.join(__dirname, '../dist')));
 
-// ✅ SPA fallback สำหรับ React Router
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
+app.get('/Signin', (req, res) => {
+  res.send('Signin');
 });
 
 
