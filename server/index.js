@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
+const path = require('path');
 const port = 3001;
 
 app.use(cors());
@@ -12,6 +13,10 @@ const db = mysql.createConnection({
     user: 'root',
     password: 'bangkok',
     database: 'accountingsystem',
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'indext.html'));
 });
 
 // บันทึกการใช้บัตรเครดิต
