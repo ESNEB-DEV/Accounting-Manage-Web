@@ -3,7 +3,6 @@ const app = express();
 const mysql = require('mysql');
 const cors = require('cors');
 const port = 3001;
-const path = require('path');
 
 app.use(cors());
 app.use(express.json());
@@ -334,16 +333,6 @@ app.put('/bg_expense_update/:bg_expense_id', (req, res) => {
         });
 });
 // End บันทึกค่าใช้จ่ายประจำเดือน
-
-app.use(express.static(path.resolve(__dirname, '../dist')));
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../dist/index.html'), function (err) {
-        if (err) {
-            console.error('Error sending index.html:', err);
-            res.status(500).send(err);
-        }
-    });
-});
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
