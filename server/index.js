@@ -14,6 +14,15 @@ const db = mysql.createConnection({
     database: 'accountingsystem',
 });
 
+// ✅ Serve static files from ../dist (เพราะ index.js อยู่ใน /server)
+app.use(express.static(path.join(__dirname, '../dist')));
+
+// ✅ SPA fallback สำหรับ React Router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
+});
+
+
 // บันทึกการใช้บัตรเครดิต
 app.get('/bg_credit', (req, res) => {
     db.query('SELECT * FROM bg_credit ORDER BY bg_credit_id DESC', (err, results) => {
