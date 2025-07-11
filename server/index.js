@@ -14,8 +14,12 @@ const db = mysql.createConnection({
     database: 'accountingsystem',
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello from your server 🎉');
+// ✅ เสิร์ฟไฟล์จาก dist/
+app.use(express.static(path.join(__dirname, '../../dist')));
+
+// ✅ fallback ให้ React Router (SPA)
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../dist/index.html'));
 });
 
 // บันทึกการใช้บัตรเครดิต
