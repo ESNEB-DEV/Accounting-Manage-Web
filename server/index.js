@@ -338,13 +338,13 @@ app.put('/bg_expense_update/:bg_expense_id', (req, res) => {
 // ✅ Serve static files from Vite build
 app.use(express.static(path.join(__dirname, '../dist')));
 
-// app.get('/*path', (req, res) => {
-//     res.sendFile(path.resolve(__dirname, '../dist/index.html'), function (err) {
-//         if (err) {
-//             res.status(500).send(err)
-//         }
-//     });
-// });
+app.get('/index', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../dist/index.html'), function (err) {
+        if (err) {
+            res.status(500).send(err)
+        }
+    });
+});
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
