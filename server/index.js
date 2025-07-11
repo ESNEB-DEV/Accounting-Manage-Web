@@ -16,7 +16,7 @@ const db = mysql.createConnection({
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'indext.html'));
+    res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
 
 // บันทึกการใช้บัตรเครดิต
