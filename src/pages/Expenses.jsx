@@ -32,6 +32,19 @@ function Expenses() {
         c_name: "",
         f_amount: 0,
     });
+    const [Est_monthly, setEst_monthly] = useState([]);
+
+    const totalsumAmount = sumAmount.reduce((sum, val) => sum + Number(val.SumAmount), 0);
+    const totalEst_monthly = Est_monthly.reduce((sum, val) => sum + Number(val.Est_monthly), 0)
+    const sumbalance = totalEst_monthly - totalsumAmount;
+
+    const getEst_monthly = async () => {
+        axios.get(`${config.API_URL}/bg_estimate_Est_monthly`)
+            .then((response) => {
+                setEst_monthly(response.data);
+            }
+            )
+    };
 
     const getExpense = async () => {
         const response = await axios.get(`${config.API_URL}/bg_expense`);
@@ -48,6 +61,7 @@ function Expenses() {
     useEffect(() => {
         getExpense();
         getSumAmount();
+        getEst_monthly();
     }, [])
 
     const addItems = (e) => {
@@ -174,6 +188,14 @@ function Expenses() {
                         <div className='w-1/2'>
                             <p>แสดงจำนวนเงิน</p>
                             <div className='border border-solid border-gray-300 p-2 pl-4 h-24'>
+                                <h3 className='flex flex-row'>ประมาณการค่าใช้จ่ายประจำเดือน :
+                                    {Est_monthly.map((val, idx) => (
+                                        <span key={idx} className='pl-2 mr-2 font-bold'>{Number(val.Est_monthly).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })} บาท</span>
+                                    ))}
+                                </h3>
                                 <h3 className='flex flex-row'>จำนวนเงินรวม :
                                     {sumAmount.map((val, idx) => (
                                         <span key={idx} className='pl-2 mr-2 font-bold'>{Number(val.SumAmount).toLocaleString(undefined, {
@@ -181,6 +203,14 @@ function Expenses() {
                                             maximumFractionDigits: 2
                                         })} บาท</span>
                                     ))}
+                                </h3>
+                                <h3>ยอดเหลือใช้ :
+                                    <span className={`text-${sumbalance < 0 ? 'red' : 'green'}-600 text-right ml-2`}>
+                                        {sumbalance.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })} บาท
+                                    </span>
                                 </h3>
                             </div>
                         </div>

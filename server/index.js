@@ -231,8 +231,31 @@ app.get('/bg_estimate_sum', (req, res) => {
     });
 });
 
-app.get('/bg_estimate_AmountEstimate', (req, res) => {
-    db.query('SELECT f_amount as AmountEstimate FROM bg_estimate where bg_estimate_id = 3', (err, results) => {
+// Est_day  ->ประมาณการค่าใช้จ่ายประจำวัน
+app.get('/bg_estimate_Est_day', (req, res) => {
+    db.query('SELECT f_amount as Est_day FROM bg_estimate where bg_estimate_id = 1', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
+// Est_monthly  ->ประมาณการค่าใช้จ่ายประจำเดือน
+app.get('/bg_estimate_Est_monthly', (req, res) => {
+    db.query('SELECT f_amount as Est_monthly FROM bg_estimate where bg_estimate_id = 2', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
+// Est_credit  ->ประมาณการค่าใช้จ่ายบัตรเครดิต
+app.get('/bg_estimate_Est_credit', (req, res) => {
+    db.query('SELECT f_amount as Est_credit FROM bg_estimate where bg_estimate_id = 3', (err, results) => {
         if (err) {
             console.log(err);
         } else {

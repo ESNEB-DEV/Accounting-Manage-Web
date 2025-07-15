@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { FaRegChartBar, FaAngleLeft, FaAngleRight, FaEdit } from "react-icons/fa";
+import { FaRegChartBar, FaAngleLeft, FaAngleRight, FaEdit, FaEye, FaEyeSlash } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import date from '../js/date.js';
 import axios from 'axios';
@@ -34,6 +34,12 @@ function Record_Estimate() {
         f_amount: 0,
     });
 
+    const [showAmount, setShowAmount] = useState(false);
+
+    const toggleAmount = (e) => {
+        e.preventDefault();
+        setShowAmount(!showAmount);
+    };
 
     const getEstimate = async () => {
         const response = await axios.get(`${config.API_URL}/bg_estimate`);
@@ -139,7 +145,6 @@ function Record_Estimate() {
         setShowEdit(false);
     };
 
-
     return (
 
         <Box sx={{ display: 'flex', minHeight: '100vh' }}>
@@ -183,12 +188,25 @@ function Record_Estimate() {
                             <p>แสดงจำนวนเงิน</p>
                             <div className='border border-solid border-gray-300 p-2 pl-4 h-24'>
                                 <h3 className='flex flex-row'>จำนวนเงินรวม :
-                                    {sum_amount.map((val) => {
-                                        const colorOver = val.SumAmount > 26000 ? 'text-red-500' : 'text-green-500';
-                                        return (
-                                            <p key={val.SumAmount} className={`${colorOver} pl-2 font-bold`}>{Number(val.SumAmount).toLocaleString()} บาท</p>
-                                        )
-                                    })}
+                                    {Array.isArray(sum_amount) &&
+                                        sum_amount.map((val) => {
+                                            const amount = Number(val.SumAmount);
+                                            const colorOver = amount > 26000 ? 'text-red-500' : 'text-green-500';
+
+                                            // สร้างสตริงปิดบัง เช่น "****"
+                                            const masked = amount.toLocaleString().replace(/\d/g, '*');
+
+                                            return (
+                                                <p key={val.SumAmount} className={`${colorOver} pl-2 font-bold`}>
+                                                    {showAmount ? amount.toLocaleString() : masked} บาท
+                                                </p>
+                                            );
+                                        })}
+                                    <button
+                                        onClick={toggleAmount}
+                                        className="mb-2 py-1 ml-4 w-4 h-4 text-gray-500 hover:text-gray-700">
+                                        {showAmount ? <FaEyeSlash /> : <FaEye />}
+                                    </button>
                                 </h3>
                             </div>
                         </div>

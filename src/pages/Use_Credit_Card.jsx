@@ -29,7 +29,7 @@ function Use_Credit_Card() {
         f_amount: 0,
         d_doc_date: ""
     });
-    const [amountEstimate, setAmountEstimate] = useState([]);
+    const [Est_credit, setEst_credit] = useState([]);
     const [amountInstallment, setAmountInstallment] = useState([]);
 
     const { start, end } = date.getCurrentBillingPeriod();
@@ -38,7 +38,7 @@ function Use_Credit_Card() {
         .filter(item => item.d_doc_date >= start && item.d_doc_date <= end)
         .reduce((sum, item) => sum + Number(item.f_amount), 0);
 
-    const totalEstimate = amountEstimate.reduce((sum, val) => sum + Number(val.AmountEstimate), 0);
+    const totalEstimate = Est_credit.reduce((sum, val) => sum + Number(val.Est_credit), 0);
     const totalInstallment = amountInstallment.reduce((sum, val) => sum + Number(val.sumPerMonth), 0)
     const amountBalance = totalEstimate - totalInstallment - usedAmount;
     const sumall = totalInstallment + usedAmount;
@@ -54,10 +54,10 @@ function Use_Credit_Card() {
         setOrderCreditCard(response.data)
     }
 
-    const getAmountEstimate = async () => {
-        axios.get(`${config.API_URL}/bg_estimate_AmountEstimate`)
+    const getEst_credit = async () => {
+        axios.get(`${config.API_URL}/bg_estimate_Est_credit`)
             .then((response) => {
-                setAmountEstimate(response.data);
+                setEst_credit(response.data);
             }
             )
     };
@@ -71,7 +71,7 @@ function Use_Credit_Card() {
 
     useEffect(() => {
         getOrderCreditCard();
-        getAmountEstimate();
+        getEst_credit();
         getSumItems();
     }, [])
 
@@ -220,11 +220,11 @@ function Use_Credit_Card() {
                             <div className='border border-solid border-gray-300 p-2 pl-4 '>
                                 <div>
                                     <h3 className='mb-1 font-bold'>รอบการใช้จ่าย : {date.formatThaiDate(start)} - {date.formatThaiDate(end)}</h3>
-                                    <h3 className='mb-1 ml-5'>ยอดเงินประมาณการ :
-                                        {amountEstimate.map((val, idx) => {
+                                    <h3 className='mb-1 ml-5'>ประมาณการค่าใช้จ่ายบัตรเครดิต :
+                                        {Est_credit.map((val, idx) => {
                                             return (
                                                 <span key={idx} className='text-blue-600 text-right ml-2'>
-                                                    {Number(val.AmountEstimate).toLocaleString(undefined, {
+                                                    {Number(val.Est_credit).toLocaleString(undefined, {
                                                         minimumFractionDigits: 2,
                                                         maximumFractionDigits: 2
                                                     })} บาท
@@ -232,7 +232,7 @@ function Use_Credit_Card() {
                                             )
                                         })}
                                     </h3>
-                                    <h3 className='mb-1 ml-5'>ยอดผ่อนสินค้า :
+                                    <h3 className='mb-1 ml-5'>ผ่อนสินค้า :
                                         {amountInstallment.map((val, idx) => {
                                             return (
                                                 <span key={idx} className='text-blue-600 text-right ml-2'>
@@ -244,7 +244,7 @@ function Use_Credit_Card() {
                                             )
                                         })}
                                     </h3>
-                                    <h3 className='mb-1 ml-5'>ยอดใช้จ่ายบัตรเครดิต :
+                                    <h3 className='mb-1 ml-5'>ใช้จ่ายบัตรเครดิต :
                                         <span className='text-blue-600 text-right ml-2'>
                                             {usedAmount.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
@@ -252,7 +252,7 @@ function Use_Credit_Card() {
                                             })} บาท
                                         </span>
                                     </h3>
-                                    <h3 className='mb-1 ml-5'>ยอดเงินคงเหลือใช้ :
+                                    <h3 className='mb-1 ml-5'>คงเหลือใช้ :
                                         <span className={`text-${amountBalance < 0 ? 'red' : 'green'}-600 text-right ml-2`}>
                                             {amountBalance.toLocaleString(undefined, {
                                                 minimumFractionDigits: 2,
