@@ -272,7 +272,7 @@ function Record_Daily() {
                                     return (
                                         <tr key={val.bg_daily_id} className='hover:bg-gray-200'>
                                             <td className='text-center w-20'>{order}</td>
-                                            <td className='text-left pl-2 w-[270px]'>
+                                            <td className='text-left pl-2'>
                                                 <p className='text-gray-600'>{val.c_name}</p>
                                             </td>
                                             <td>

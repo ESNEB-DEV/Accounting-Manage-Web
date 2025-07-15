@@ -35,7 +35,6 @@ function formatInputDate(dateString) {
     const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
-
 function getCurrentBillingPeriod(today = new Date()) {
     const year = today.getFullYear();
     const month = today.getMonth();
@@ -45,10 +44,10 @@ function getCurrentBillingPeriod(today = new Date()) {
     if (date >= 26) {
         // รอบเดือนถัดไป
         start = new Date(year, month, 26);
-        end = new Date(year, month + 1, 26);
+        end = new Date(year, month + 1, 25);
     } else {
         // รอบนี้เดือนนี้
-        start = new Date(year, month - 1, 25);
+        start = new Date(year, month - 1, 26);
         end = new Date(year, month, 25);
     }
     // คืนค่าเป็น yyyy-mm-dd
@@ -68,19 +67,20 @@ function getInstallmentProgress(startDate, totalInstallments) {
     let start = dayjs(startDate).startOf('day');
     const today = dayjs().startOf('day');
 
-    // ✅ ถ้า startDate กับวันนี้อยู่เดือนเดียวกัน → เริ่มงวดจาก "เดือนถัดไป"
-    if (start.month() === today.month() && start.year() === today.year()) {
-        start = start.add(1, 'month').startOf('month');
-    }
-
+    // เริ่มต้นที่ 0 และนับ 1 ในเดือนถัดไป
     let monthsDiff = today.diff(start, 'month');
 
-    // ✅ ถ้ายังไม่ถึงวันที่ 1 ของรอบเดือนนั้น ๆ → ยังไม่ถึงงวด
+    // ถ้ายังไม่ถึงวันที่ 1 ของรอบเดือนนั้น ๆ → ยังไม่ถึงงวด
     if (today.date() < start.date()) {
         monthsDiff--;
     }
 
-    const paid = Math.min(Math.max(monthsDiff + 1, 0), totalInstallments);
+    // ถ้าอยู่เดือนเดียวกันกับ startDate ให้นับเป็น 0
+    if (start.month() === today.month() && start.year() === today.year()) {
+        monthsDiff = 0;
+    }
+
+    const paid = Math.min(Math.max(monthsDiff, 0), totalInstallments);
     return { paid, total: totalInstallments };
 }
 

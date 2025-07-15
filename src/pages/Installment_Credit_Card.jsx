@@ -266,7 +266,7 @@ function Installment_Credit_Card() {
                                 <th className='border border-gray-300 p-2 w-52'>รายการ</th>
                                 <th className='border border-gray-300 p-2'>จำนวนเงิน</th>
                                 <th className='border border-gray-300 p-2'>จำนวนงวด</th>
-                                <th className='border border-gray-300 p-2'>งวดชำระ</th>
+                                <th className='border border-gray-300 p-2'>งวดชำระปัจจุบัน</th>
                                 <th className='border border-gray-300 p-2'>สถานะการผ่อน</th>
                                 <th className='border border-gray-300 p-2'>งวดละ/บาท</th>
                                 <th className='border border-gray-300 p-2'>วันที่</th>
@@ -304,7 +304,7 @@ function Installment_Credit_Card() {
                                             <td>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', width: 300 }}>
                                                     <Box sx={{ width: '70px', mx: 1 }}>
-                                                        <LinearProgress variant="determinate" value={progress} />
+                                                        <LinearProgress variant="determinate" value={progress} sx={{ borderRadius: 4 }} />
                                                     </Box>
                                                     <Box sx={{ minWidth: 100 }}>
                                                         <Typography variant="body2" color="text.secondary">
@@ -314,7 +314,7 @@ function Installment_Credit_Card() {
                                                 </Box>
                                             </td>
                                             <td>
-                                                <div className={`text-center ${val.i_active === 0 ? 'text-gray-500' : 'text-green-600'}`}>
+                                                <div className={`text-center ${val.i_active === 0 ? 'text-gray-500 bg-gray-200 rounded' : 'text-green-600 bg-green-200 rounded'}`}>
                                                     {val.i_active === 0 ? 'ปิดการผ่อนชำระ' : 'ใช้งานอยู่'}
                                                 </div>
                                             </td>
