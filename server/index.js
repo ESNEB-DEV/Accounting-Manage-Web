@@ -15,8 +15,6 @@ const db = mysql.createConnection({
     database: 'accountingsystem',
 });
 
-app.use(express.static(path.resolve(__dirname, '../dist/index.html')));
-
 // บันทึกการใช้บัตรเครดิต
 app.get('/bg_credit', (req, res) => {
     db.query('SELECT * FROM bg_credit ORDER BY bg_credit_id DESC', (err, results) => {
