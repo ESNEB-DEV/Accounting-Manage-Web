@@ -7,16 +7,23 @@ import config from '../js/config.js'
 import axios from 'axios';
 
 function Dashboard() {
-
     const [users, setuser] = useState([]);
+    const [credits, setCredits] = useState([]); // state สำหรับ bg_credit
 
     const getuser = async () => {
         const response = await axios.get('/users');
         setuser(response.data)
     }
 
+    // เพิ่มฟังก์ชันดึงข้อมูล bg_credit
+    const getCredits = async () => {
+        const response = await axios.get(`${config.API_URL}/bg_credit`);
+        setCredits(response.data);
+    }
+
     useEffect(() => {
         getuser();
+        getCredits(); // ดึงข้อมูล bg_credit
     }, [])
 
     return (
@@ -33,6 +40,16 @@ function Dashboard() {
                         <h2>รายชื่อผู้ใช้จาก Neon DB</h2>
                         <ul>
                             {users.map((u) => <li key={u.id}>{u.name}</li>)}
+                        </ul>
+                    </div>
+                    <div>
+                        <h2 className='mt-8'>รายการบัตรเครดิต (bg_credit)</h2>
+                        <ul>
+                            {credits.map((c) => (
+                                <li key={c.bg_credit_id}>
+                                    {c.c_name} - {Number(c.f_amount).toLocaleString()} บาท ({c.d_doc_date})
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
