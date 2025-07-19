@@ -3,15 +3,19 @@ import Footer from '../components/Footer'
 import Per_Drawer from '../components/Per_Drawer.jsx';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
+import config from '../js/config.js'
 
 function Dashboard() {
 
     const [users, setUsers] = useState([]);
 
+    const getusers = async () => {
+        const response = await axios.get(`${config.PGHOST}/bg_estimate`);
+        setUsers(response.data);
+    }
+
     useEffect(() => {
-        fetch('/api/users') // เรียก API route ที่ deploy อยู่กับ Vercel
-            .then((res) => res.json())
-            .then((data) => setUsers(data));
+        getusers();
     }, []);
     return (
         // <Box sx={{ display: 'flex', minHeight: '100vh' }}>
