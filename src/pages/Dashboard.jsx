@@ -4,6 +4,7 @@ import Per_Drawer from '../components/Per_Drawer.jsx';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import config from '../js/config.js'
+import axios from 'axios';
 
 function Dashboard() {
 
@@ -27,7 +28,7 @@ function Dashboard() {
                     <div className='bg-blue-100 p-5 text-left m-5 border rounded'>
                         <h1 className='text-2xl text-extrabold my-2 text-gray-700'>สวัสดีผู้ใช้</h1>
                         <p className='text-sm text-gray-600'>ยินดีต้อนรับเข้าสู่ระบบการลงบันทึกรายการค่าใช้จ่าย</p>
-                    </div>s
+                    </div>
                 </div>
                 <div>
                     <h2>รายชื่อผู้ใช้จาก Neon DB</h2>
