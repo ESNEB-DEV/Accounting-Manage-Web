@@ -7,7 +7,7 @@ import { MdDelete } from "react-icons/md";
 import { styled } from '@mui/material/styles';
 import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Footer from '../components/Footer'
+import Footer from '../components/Footer.jsx'
 import LinearProgress from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Per_Drawer from '../components/Per_Drawer.jsx';

@@ -4,7 +4,7 @@ import date from '../js/date.js';
 import { FaCcVisa, FaEdit, FaAngleLeft, FaAngleRight } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import axios from 'axios';
-import Footer from '../components/Footer'
+import Footer from '../components/Footer.jsx'
 import Per_Drawer from '../components/Per_Drawer.jsx';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';

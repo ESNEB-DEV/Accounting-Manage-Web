@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import Footer from '../components/Footer'
+import Footer from '../components/Footer.jsx'
 import Per_Drawer from '../components/Per_Drawer.jsx';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
