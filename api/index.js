@@ -40,6 +40,10 @@ export default async function handler(req, res) {
     }
 }
 
+export default function handler(req, res) {
+    res.status(200).json({ message: "Hello from Vercel Serverless Function!" });
+}
+
 // บันทึกการใช้บัตรเครดิต
 // app.get('/bg_credit', (req, res) => {
 //     db.query('SELECT * FROM bg_credit ORDER BY bg_credit_id DESC', (err, results) => {
