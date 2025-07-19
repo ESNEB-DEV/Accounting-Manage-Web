@@ -7,6 +7,17 @@ import config from '../js/config.js'
 
 function Dashboard() {
 
+    const [users, setuser] = useState([]);
+
+    const getuser = async () => {
+        const response = await axios.get(`${config.PGHOST}/users`);
+        setuser(response.data)
+    }
+
+    useEffect(() => {
+        getuser();
+    }, [])
+
     return (
         <Box sx={{ display: 'flex', minHeight: '100vh' }}>
             <Per_Drawer />
@@ -16,7 +27,13 @@ function Dashboard() {
                     <div className='bg-blue-100 p-5 text-left m-5 border rounded'>
                         <h1 className='text-2xl text-extrabold my-2 text-gray-700'>สวัสดีผู้ใช้</h1>
                         <p className='text-sm text-gray-600'>ยินดีต้อนรับเข้าสู่ระบบการลงบันทึกรายการค่าใช้จ่าย</p>
-                    </div>
+                    </div>s
+                </div>
+                <div>
+                    <h2>รายชื่อผู้ใช้จาก Neon DB</h2>
+                    <ul>
+                        {users.map((u) => <li key={u.id}>{u.name}</li>)}
+                    </ul>
                 </div>
                 <Footer />
             </Box>

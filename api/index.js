@@ -31,14 +31,17 @@ const pool = new Pool({
     }
 });
 
-export default async function handler(req, res) {
-    try {
-        const result = await pool.query('SELECT * FROM users');
-        res.status(200).json(result.rows);
-    } catch (err) {
-        res.status(500).json({ error: err.message });
-    }
-}
+// บันทึกการใช้บัตรเครดิต
+app.get('/users', (req, res) => {
+    db.query('SELECT * FROM users ORDER BY users_id DESC', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
+
 
 export default function handler(req, res) {
     res.status(200).json({ message: "Hello from Vercel Serverless Function!" });
