@@ -30,20 +30,14 @@ const pool = new Pool({
     }
 });
 
-app.get('/users', (req, res) => {
-    db.query('SELECT * FROM users', (err, results) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(results);
-        }
-    });
-})
-
-
-export default function handler(req, res) {
-    res.status(200).json({ message: "Hello from Vercel Serverless Function!" });
-}
+app.get('/test-db', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT NOW()');
+        res.json({ success: true, time: result.rows[0].now });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+});
 
 // บันทึกการใช้บัตรเครดิต
 app.get('/bg_credit', (req, res) => {
