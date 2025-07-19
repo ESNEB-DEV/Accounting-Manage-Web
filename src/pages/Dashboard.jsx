@@ -10,7 +10,7 @@ function Dashboard() {
     const [users, setUsers] = useState([]);
 
     const getusers = async () => {
-        const response = await axios.get(`${config.PGHOST}/bg_estimate`);
+        const response = await axios.get(`${config.PGHOST}/users`);
         setUsers(response.data);
     }
 
