@@ -40,7 +40,7 @@ app.get('/test-db', async (req, res) => {
 });
 
 // บันทึกการใช้บัตรเครดิต
-app.get('/bg_credit', (req, res) => {
+app.get('/Record_Estimate', (req, res) => {
     db.query('SELECT * FROM bg_credit ORDER BY bg_credit_id DESC', (err, results) => {
         if (err) {
             console.log(err);

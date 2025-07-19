@@ -12,7 +12,7 @@ function Dashboard() {
 
     // เพิ่มฟังก์ชันดึงข้อมูล bg_credit
     const getCredits = async () => {
-        const response = await axios.get('bg_credit');
+        const response = await axios.get('Record_Estimate');
         setCredits(response.data);
     }
 
