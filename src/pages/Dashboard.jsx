@@ -29,12 +29,12 @@ function Dashboard() {
                         <h1 className='text-2xl text-extrabold my-2 text-gray-700'>สวัสดีผู้ใช้</h1>
                         <p className='text-sm text-gray-600'>ยินดีต้อนรับเข้าสู่ระบบการลงบันทึกรายการค่าใช้จ่าย</p>
                     </div>
-                </div>
-                <div>
-                    <h2>รายชื่อผู้ใช้จาก Neon DB</h2>
-                    <ul>
-                        {users.map((u) => <li key={u.id}>{u.name}</li>)}
-                    </ul>
+                    <div>
+                        <h2>รายชื่อผู้ใช้จาก Neon DB</h2>
+                        <ul>
+                            {users.map((u) => <li key={u.id}>{u.name}</li>)}
+                        </ul>
+                    </div>
                 </div>
                 <Footer />
             </Box>
