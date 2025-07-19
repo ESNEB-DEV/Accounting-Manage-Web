@@ -11,7 +11,7 @@ function Dashboard() {
     const [users, setuser] = useState([]);
 
     const getuser = async () => {
-        const response = await axios.get(`${config.PGHOST}/users`);
+        const response = await axios.get('users');
         setuser(response.data)
     }
 
