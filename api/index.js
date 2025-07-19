@@ -3,7 +3,6 @@ const app = express();
 // const mysql = require('mysql');
 const cors = require('cors');
 // const path = require('path');
-const port = 3001;
 
 require('dotenv').config();
 const config = require('./config');
@@ -31,16 +30,15 @@ const pool = new Pool({
     }
 });
 
-// บันทึกการใช้บัตรเครดิต
 app.get('/users', (req, res) => {
-    db.query('SELECT * FROM users ORDER BY users_id DESC', (err, results) => {
+    db.query('SELECT * FROM users', (err, results) => {
         if (err) {
             console.log(err);
         } else {
             res.send(results);
         }
     });
-});
+})
 
 
 export default function handler(req, res) {
@@ -48,15 +46,15 @@ export default function handler(req, res) {
 }
 
 // บันทึกการใช้บัตรเครดิต
-// app.get('/bg_credit', (req, res) => {
-//     db.query('SELECT * FROM bg_credit ORDER BY bg_credit_id DESC', (err, results) => {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             res.send(results);
-//         }
-//     });
-// });
+app.get('/bg_credit', (req, res) => {
+    db.query('SELECT * FROM bg_credit ORDER BY bg_credit_id DESC', (err, results) => {
+        if (err) {
+            console.log(err);
+        } else {
+            res.send(results);
+        }
+    });
+});
 
 // app.post('/bg_credit_create', (req, res) => {
 //     const { c_name, f_amount, d_doc_date } = req.body;
